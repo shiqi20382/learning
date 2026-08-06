@@ -1,0 +1,4 @@
+0000000000000000000000000000000000000000 b8da74964409dfdeb76c61beec63d2ecf422ef5f heer <heer@example.com> 1785735122 +0800	commit (initial): 第一次提交：添加 README.md
+b8da74964409dfdeb76c61beec63d2ecf422ef5f 71f3dba52fe7e7f50483349be3c0d77e8e77fbd9 heer <heer@example.com> 1785735367 +0800	commit: 第二次提交：更新 README.md
+71f3dba52fe7e7f50483349be3c0d77e8e77fbd9 45295c9dc68da294f027809fa84b3b1f19aec1ab heer <heer@example.com> 1785736318 +0800	commit: 重命名 README.md
+45295c9dc68da294f027809fa84b3b1f19aec1ab 5630f1db2c02e32fb668627aedd8703d4f474512 heer <heer@example.com> 1785736371 +0800	commit: 删除 chapter1.txt
