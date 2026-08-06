@@ -1,0 +1,3 @@
+/mnt/ssd/learning/day4/build/CMakeFiles/rebuild_cache.dir
+/mnt/ssd/learning/day4/build/CMakeFiles/edit_cache.dir
+/mnt/ssd/learning/day4/build/CMakeFiles/student_app.dir
