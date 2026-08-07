@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/employee.h
+string
+-
+
+../include/employeemanager.h
+vector
+-
+employee.h
+../include/employee.h
+
+/mnt/ssd/learning/day5/employee-project/src/employee.cpp
+employee.h
+/mnt/ssd/learning/day5/employee-project/src/employee.h
+iostream
+-
+
+/mnt/ssd/learning/day5/employee-project/src/employeemanager.cpp
+employeemanager.h
+/mnt/ssd/learning/day5/employee-project/src/employeemanager.h
+

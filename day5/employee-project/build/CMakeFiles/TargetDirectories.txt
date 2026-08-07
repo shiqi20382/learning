@@ -1,0 +1,4 @@
+/mnt/ssd/learning/day5/employee-project/build/CMakeFiles/rebuild_cache.dir
+/mnt/ssd/learning/day5/employee-project/build/CMakeFiles/edit_cache.dir
+/mnt/ssd/learning/day5/employee-project/build/CMakeFiles/employee_app.dir
+/mnt/ssd/learning/day5/employee-project/build/CMakeFiles/employee_lib.dir
