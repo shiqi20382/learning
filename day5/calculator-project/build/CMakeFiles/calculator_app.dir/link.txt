@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/calculator_app.dir/src/main.cpp.o  -o calculator_app  libcalculator.a 

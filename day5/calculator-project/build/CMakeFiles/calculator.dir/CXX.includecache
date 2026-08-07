@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/calculator.h
+
+/mnt/ssd/learning/day5/calculator-project/src/calculator.cpp
+calculator.h
+/mnt/ssd/learning/day5/calculator-project/src/calculator.h
+iostream
+-
+stdexcept
+-
+
