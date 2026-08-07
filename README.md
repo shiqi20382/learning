@@ -1,3 +1,4 @@
-# Project
-
-这个项目已初始化为 Git 仓库。
+这是我的第一篇学习笔记
+Git 是一个版本控制系统
+Linux是操作系统
+还有c++/cmake/tarscpp

@@ -1,0 +1,92 @@
+CMake 的构建流程
+编写源代码
+   ↓
+编写 CMakeLists.txt
+   ↓
+CMake 配置项目      cmake -S . -B build
+   ↓
+生成构建文件
+   ↓
+编译源代码     cmake --build build 
+   ↓
+生成可执行程序
+   ↓
+运行程序
+
+大多数项目都遵循类似结构
+# 指定最低 CMake 版本
+cmake_minimum_required(VERSION 3.10)
+
+# 定义项目名称，并启用 C++
+project(StudentApp LANGUAGES CXX)
+
+# 设置 C++ 标准
+set(CMAKE_CXX_STANDARD 11)
+
+# 要求编译器必须支持 C++11
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 创建可执行程序
+add_executable(student_app
+    src/main.cpp
+    src/Student.cpp
+)
+
+# 只为 student_app 指定头文件目录
+target_include_directories(student_app PRIVATE
+    ${PROJECT_SOURCE_DIR}/include
+)
+
+
+
+如果项目包含静态库，常见格式是
+# 指定最低 CMake 版本
+cmake_minimum_required(VERSION 3.10)
+
+# 定义项目
+project(CalculatorProject LANGUAGES CXX)
+
+# 设置 C++ 标准
+set(CMAKE_CXX_STANDARD 11)
+
+# 创建静态库
+add_library(calculator STATIC
+    src/Calculator.cpp
+)
+
+# 为静态库配置头文件目录
+target_include_directories(calculator PUBLIC
+    ${PROJECT_SOURCE_DIR}/include
+)
+
+# 创建主程序
+add_executable(calculator_app
+    src/main.cpp
+)
+
+# 将主程序链接到 calculator 静态库
+target_link_libraries(calculator_app PRIVATE
+    calculator
+)
+
+
+
+
+常见项目结构
+my-project/
+├── CMakeLists.txt
+├── include/
+│   └── Student.h
+├── src/
+│   ├── main.cpp
+│   └── Student.cpp
+└── build/
+
+# 在包含 CMakeLists.txt 的项目根目录执行
+cmake -S . -B build
+
+# 编译项目
+cmake --build build
+
+# 运行生成的程序
+./build/student_app

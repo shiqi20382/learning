@@ -1,0 +1,98 @@
+分析日志脚本
+#!/bin/bash                                                        # 指定使用 Bash 执行脚本
+
+count_keyword()                                                    # 定义统计关键字数量的函数
+{                                                                  # 开始函数体
+    local keyword="$1"                                             # 获取函数第 1 个参数：关键字
+    local log_file="$2"                                            # 获取函数第 2 个参数：日志文件路径
+
+    grep -c "$keyword" "$log_file"                                 # 统计包含关键字的行数并输出结果
+}                                                                  # 结束函数体
+
+if [ "$#" -ne 1 ]                                                  # 如果脚本参数数量不等于 1
+then                                                               # 参数数量错误时执行下面代码
+    echo "用法：$0 日志文件路径"                                    # 输出正确用法
+    exit 1                                                         # 以失败状态结束脚本
+fi                                                                 # 结束参数数量判断
+
+log_file="$1"                                                      # 将第 1 个参数保存到 log_file 变量
+
+if [ ! -f "$log_file" ]                                            # 如果日志文件不存在或不是普通文件
+then                                                               # 文件检查失败时执行下面代码
+    echo "错误：日志文件不存在：$log_file"                          # 输出错误提示
+    exit 1                                                         # 以失败状态结束脚本
+fi                                                                 # 结束文件判断
+
+info_count=$(count_keyword "INFO" "$log_file")                     # 调用函数，统计 INFO 行数
+warning_count=$(count_keyword "WARNING" "$log_file")               # 调用函数，统计 WARNING 行数
+error_count=$(count_keyword "ERROR" "$log_file")                   # 调用函数，统计 ERROR 行数
+
+output_file="errors_$(date +%F).log"                               # 使用当前日期生成错误日志输出文件名
+
+grep "ERROR" "$log_file" > "$output_file"                          # 将所有 ERROR 行写入输出文件；没有 ERROR 时会生成空文件
+
+echo "日志文件：$log_file"                                         # 输出分析的日志文件路径
+echo "INFO 数量：$info_count"                                      # 输出 INFO 统计结果
+echo "WARNING 数量：$warning_count"                                # 输出 WARNING 统计结果
+echo "ERROR 数量：$error_count"                                    # 输出 ERROR 统计结果
+echo "错误日志文件：$output_file"                                  # 输出生成的错误日志文件路径
+
+exit 0                                                              # 正常结束脚本
+
+
+
+
+备份目录脚本
+#!/bin/bash                                                        # 指定使用 Bash 执行脚本
+
+if [ "$#" -ne 2 ]                                                  # 如果参数数量不等于 2
+then                                                               # 参数数量错误时执行下面代码
+    echo "用法：$0 要备份的目录 备份保存目录"                        # 输出正确用法
+    exit 1                                                         # 以失败状态结束脚本
+fi                                                                 # 结束参数数量判断
+
+source_dir="$1"                                                    # 获取第 1 个参数：要备份的目录
+backup_dir="$2"                                                    # 获取第 2 个参数：备份保存目录
+
+if [ ! -d "$source_dir" ]                                          # 如果源目录不存在
+then                                                               # 源目录检查失败时执行下面代码
+    echo "错误：要备份的目录不存在：$source_dir"                    # 输出错误提示
+    exit 1                                                         # 以失败状态结束脚本
+fi                                                                 # 结束源目录判断
+
+mkdir -p "$backup_dir"                                             # 创建备份保存目录；已存在时不报错
+
+backup_name="backup_$(date +%F_%H-%M-%S).tar.gz"                   # 生成带日期和时间的备份文件名
+backup_path="$backup_dir/$backup_name"                             # 拼接出备份文件完整路径
+
+tar -czf "$backup_path" "$source_dir"                              # 将源目录压缩为 tar.gz 文件
+
+if [ "$?" -ne 0 ]                                                  # 如果 tar 命令执行失败
+then                                                               # 备份失败时执行下面代码
+    echo "错误：备份失败"                                          # 输出失败提示
+    exit 1                                                         # 以失败状态结束脚本
+fi                                                                 # 结束备份结果判断
+
+echo "备份成功：$backup_path"                                      # 输出备份成功和文件路径
+
+backup_count=$(find "$backup_dir" -maxdepth 1 -type f -name "*.tar.gz" | wc -l) # 统计备份目录中的 tar.gz 文件数量
+
+echo "当前备份文件数量：$backup_count"                             # 输出备份文件总数
+
+if [ "$backup_count" -gt 5 ]                                       # 如果备份文件超过 5 个
+then                                                               # 超过数量限制时执行下面代码
+    oldest_backup=$(find "$backup_dir" -maxdepth 1 -type f -name "*.tar.gz" -printf "%T@ %p\n" | sort -n | head -n 1 | cut -d " " -f 2-) # 找出最早的备份文件
+
+    echo "最早的备份文件：$oldest_backup"                           # 输出最早的备份文件路径
+
+    read -p "备份超过 5 个，确认删除最早文件请输入 yes：" answer      # 读取用户确认
+
+    if [ "$answer" = "yes" ]                                       # 如果用户明确输入 yes
+    then                                                           # 确认删除时执行下面代码
+        rm -i "$oldest_backup"                                     # 删除最早备份文件；-i 会再次要求终端确认
+        echo "已处理最早备份文件"                                  # 输出处理完成提示
+    else                                                           # 用户未确认时执行下面代码
+        echo "已取消删除操作"                                      # 输出取消提示
+    fi                                                             # 结束删除确认判断
+    fi                                                                 # 结束备份数量判断
+exit 0                                                              # 正常结束脚本
