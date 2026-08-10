@@ -1,0 +1,4 @@
+/mnt/ssd/learning/week2/day1/book-project/build/CMakeFiles/rebuild_cache.dir
+/mnt/ssd/learning/week2/day1/book-project/build/CMakeFiles/edit_cache.dir
+/mnt/ssd/learning/week2/day1/book-project/build/CMakeFiles/book_app.dir
+/mnt/ssd/learning/week2/day1/book-project/build/CMakeFiles/book_lib.dir

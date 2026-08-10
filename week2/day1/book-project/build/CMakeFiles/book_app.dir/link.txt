@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/book_app.dir/src/main.cpp.o  -o book_app  libbook_lib.a 

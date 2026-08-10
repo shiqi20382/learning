@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/Book.h
+string
+-
+
+../include/BookManager.h
+Book.h
+../include/Book.h
+vector
+-
+
+/mnt/ssd/learning/week2/day1/book-project/src/BookManager.cpp
+BookManager.h
+/mnt/ssd/learning/week2/day1/book-project/src/BookManager.h
+
