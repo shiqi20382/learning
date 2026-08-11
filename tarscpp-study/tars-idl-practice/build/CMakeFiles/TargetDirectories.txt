@@ -1,0 +1,3 @@
+/mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles/rebuild_cache.dir
+/mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles/edit_cache.dir
+/mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles/hello_local.dir

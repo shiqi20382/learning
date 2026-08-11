@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/hello_local.dir/main.cpp.o CMakeFiles/hello_local.dir/service/HelloImp.cpp.o  -o hello_local  ../../TarsCpp/build/lib/libtarsservant.a ../../TarsCpp/build/lib/libtarsutil.a ../../TarsCpp/build/lib/libtarsparse.a /usr/lib/x86_64-linux-gnu/libz.so -ldl -lpthread 

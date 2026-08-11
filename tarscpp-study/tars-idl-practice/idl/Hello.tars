@@ -1,0 +1,7 @@
+module HelloApp // 定义模块，生成的 C++ 代码会位于该命名空间中
+{
+    interface Hello // 定义名为 Hello 的 RPC 接口
+    {
+        string sayHello(string name); // 定义方法：接收姓名并返回问候语
+    }; // 结束接口定义
+}; // 结束模块定义
