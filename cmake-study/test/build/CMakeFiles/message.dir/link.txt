@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmessage.a  CMakeFiles/message.dir/src/message.cpp.o
+/usr/bin/ranlib libmessage.a

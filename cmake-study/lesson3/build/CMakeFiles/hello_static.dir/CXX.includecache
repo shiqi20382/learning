@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../greeter/include/greeter.h
+string
+-
+
+/mnt/ssd/learning/cmake-study/lesson3/app/src/main.cpp
+iostream
+-
+string
+-
+greeter.h
+/mnt/ssd/learning/cmake-study/lesson3/app/src/greeter.h
+

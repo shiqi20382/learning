@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/hello_static.dir/app/src/main.cpp.o  -o hello_static  libgreeter.a 

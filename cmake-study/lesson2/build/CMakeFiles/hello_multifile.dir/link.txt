@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/hello_multifile.dir/src/main.cpp.o CMakeFiles/hello_multifile.dir/src/greeter.cpp.o  -o hello_multifile 

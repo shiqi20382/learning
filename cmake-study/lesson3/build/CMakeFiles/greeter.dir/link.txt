@@ -1,0 +1,2 @@
+/usr/bin/ar qc libgreeter.a  CMakeFiles/greeter.dir/greeter/src/greeter.cpp.o
+/usr/bin/ranlib libgreeter.a

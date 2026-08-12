@@ -1,0 +1,4 @@
+/mnt/ssd/learning/cmake-study/test/build/CMakeFiles/rebuild_cache.dir
+/mnt/ssd/learning/cmake-study/test/build/CMakeFiles/edit_cache.dir
+/mnt/ssd/learning/cmake-study/test/build/CMakeFiles/cmake_final_check.dir
+/mnt/ssd/learning/cmake-study/test/build/CMakeFiles/message.dir

@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/cmake_final_check.dir/src/main.cpp.o  -o cmake_final_check  libmessage.a 
