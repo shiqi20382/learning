@@ -49,5 +49,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/hello_client.dir/DependInfo.cmake"
+  "CMakeFiles/hello_server.dir/DependInfo.cmake"
   "CMakeFiles/hello_local.dir/DependInfo.cmake"
   )

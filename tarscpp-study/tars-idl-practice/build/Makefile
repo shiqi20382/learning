@@ -111,6 +111,32 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named hello_client
+
+# Build rule for target.
+hello_client: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 hello_client
+.PHONY : hello_client
+
+# fast build rule for target.
+hello_client/fast:
+	$(MAKE) -f CMakeFiles/hello_client.dir/build.make CMakeFiles/hello_client.dir/build
+.PHONY : hello_client/fast
+
+#=============================================================================
+# Target rules for targets named hello_server
+
+# Build rule for target.
+hello_server: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 hello_server
+.PHONY : hello_server
+
+# fast build rule for target.
+hello_server/fast:
+	$(MAKE) -f CMakeFiles/hello_server.dir/build.make CMakeFiles/hello_server.dir/build
+.PHONY : hello_server/fast
+
+#=============================================================================
 # Target rules for targets named hello_local
 
 # Build rule for target.
@@ -122,6 +148,33 @@ hello_local: cmake_check_build_system
 hello_local/fast:
 	$(MAKE) -f CMakeFiles/hello_local.dir/build.make CMakeFiles/hello_local.dir/build
 .PHONY : hello_local/fast
+
+client_main.o: client_main.cpp.o
+
+.PHONY : client_main.o
+
+# target to build an object file
+client_main.cpp.o:
+	$(MAKE) -f CMakeFiles/hello_client.dir/build.make CMakeFiles/hello_client.dir/client_main.cpp.o
+.PHONY : client_main.cpp.o
+
+client_main.i: client_main.cpp.i
+
+.PHONY : client_main.i
+
+# target to preprocess a source file
+client_main.cpp.i:
+	$(MAKE) -f CMakeFiles/hello_client.dir/build.make CMakeFiles/hello_client.dir/client_main.cpp.i
+.PHONY : client_main.cpp.i
+
+client_main.s: client_main.cpp.s
+
+.PHONY : client_main.s
+
+# target to generate assembly for a file
+client_main.cpp.s:
+	$(MAKE) -f CMakeFiles/hello_client.dir/build.make CMakeFiles/hello_client.dir/client_main.cpp.s
+.PHONY : client_main.cpp.s
 
 main.o: main.cpp.o
 
@@ -150,12 +203,40 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/hello_local.dir/build.make CMakeFiles/hello_local.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+server_main.o: server_main.cpp.o
+
+.PHONY : server_main.o
+
+# target to build an object file
+server_main.cpp.o:
+	$(MAKE) -f CMakeFiles/hello_server.dir/build.make CMakeFiles/hello_server.dir/server_main.cpp.o
+.PHONY : server_main.cpp.o
+
+server_main.i: server_main.cpp.i
+
+.PHONY : server_main.i
+
+# target to preprocess a source file
+server_main.cpp.i:
+	$(MAKE) -f CMakeFiles/hello_server.dir/build.make CMakeFiles/hello_server.dir/server_main.cpp.i
+.PHONY : server_main.cpp.i
+
+server_main.s: server_main.cpp.s
+
+.PHONY : server_main.s
+
+# target to generate assembly for a file
+server_main.cpp.s:
+	$(MAKE) -f CMakeFiles/hello_server.dir/build.make CMakeFiles/hello_server.dir/server_main.cpp.s
+.PHONY : server_main.cpp.s
+
 service/HelloImp.o: service/HelloImp.cpp.o
 
 .PHONY : service/HelloImp.o
 
 # target to build an object file
 service/HelloImp.cpp.o:
+	$(MAKE) -f CMakeFiles/hello_server.dir/build.make CMakeFiles/hello_server.dir/service/HelloImp.cpp.o
 	$(MAKE) -f CMakeFiles/hello_local.dir/build.make CMakeFiles/hello_local.dir/service/HelloImp.cpp.o
 .PHONY : service/HelloImp.cpp.o
 
@@ -165,6 +246,7 @@ service/HelloImp.i: service/HelloImp.cpp.i
 
 # target to preprocess a source file
 service/HelloImp.cpp.i:
+	$(MAKE) -f CMakeFiles/hello_server.dir/build.make CMakeFiles/hello_server.dir/service/HelloImp.cpp.i
 	$(MAKE) -f CMakeFiles/hello_local.dir/build.make CMakeFiles/hello_local.dir/service/HelloImp.cpp.i
 .PHONY : service/HelloImp.cpp.i
 
@@ -174,6 +256,7 @@ service/HelloImp.s: service/HelloImp.cpp.s
 
 # target to generate assembly for a file
 service/HelloImp.cpp.s:
+	$(MAKE) -f CMakeFiles/hello_server.dir/build.make CMakeFiles/hello_server.dir/service/HelloImp.cpp.s
 	$(MAKE) -f CMakeFiles/hello_local.dir/build.make CMakeFiles/hello_local.dir/service/HelloImp.cpp.s
 .PHONY : service/HelloImp.cpp.s
 
@@ -185,10 +268,18 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... hello_client"
+	@echo "... hello_server"
 	@echo "... hello_local"
+	@echo "... client_main.o"
+	@echo "... client_main.i"
+	@echo "... client_main.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... server_main.o"
+	@echo "... server_main.i"
+	@echo "... server_main.s"
 	@echo "... service/HelloImp.o"
 	@echo "... service/HelloImp.i"
 	@echo "... service/HelloImp.s"

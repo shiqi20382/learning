@@ -53,6 +53,8 @@ CMAKE_BINARY_DIR = /mnt/ssd/learning/tarscpp-study/tars-idl-practice/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: CMakeFiles/hello_client.dir/all
+all: CMakeFiles/hello_server.dir/all
 all: CMakeFiles/hello_local.dir/all
 
 .PHONY : all
@@ -63,9 +65,65 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/hello_client.dir/clean
+clean: CMakeFiles/hello_server.dir/clean
 clean: CMakeFiles/hello_local.dir/clean
 
 .PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/hello_client.dir
+
+# All Build rule for target.
+CMakeFiles/hello_client.dir/all:
+	$(MAKE) -f CMakeFiles/hello_client.dir/build.make CMakeFiles/hello_client.dir/depend
+	$(MAKE) -f CMakeFiles/hello_client.dir/build.make CMakeFiles/hello_client.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles --progress-num=1,2 "Built target hello_client"
+.PHONY : CMakeFiles/hello_client.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/hello_client.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/hello_client.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles 0
+.PHONY : CMakeFiles/hello_client.dir/rule
+
+# Convenience name for target.
+hello_client: CMakeFiles/hello_client.dir/rule
+
+.PHONY : hello_client
+
+# clean rule for target.
+CMakeFiles/hello_client.dir/clean:
+	$(MAKE) -f CMakeFiles/hello_client.dir/build.make CMakeFiles/hello_client.dir/clean
+.PHONY : CMakeFiles/hello_client.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/hello_server.dir
+
+# All Build rule for target.
+CMakeFiles/hello_server.dir/all:
+	$(MAKE) -f CMakeFiles/hello_server.dir/build.make CMakeFiles/hello_server.dir/depend
+	$(MAKE) -f CMakeFiles/hello_server.dir/build.make CMakeFiles/hello_server.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles --progress-num=6,7,8 "Built target hello_server"
+.PHONY : CMakeFiles/hello_server.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/hello_server.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/hello_server.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles 0
+.PHONY : CMakeFiles/hello_server.dir/rule
+
+# Convenience name for target.
+hello_server: CMakeFiles/hello_server.dir/rule
+
+.PHONY : hello_server
+
+# clean rule for target.
+CMakeFiles/hello_server.dir/clean:
+	$(MAKE) -f CMakeFiles/hello_server.dir/build.make CMakeFiles/hello_server.dir/clean
+.PHONY : CMakeFiles/hello_server.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/hello_local.dir
@@ -74,7 +132,7 @@ clean: CMakeFiles/hello_local.dir/clean
 CMakeFiles/hello_local.dir/all:
 	$(MAKE) -f CMakeFiles/hello_local.dir/build.make CMakeFiles/hello_local.dir/depend
 	$(MAKE) -f CMakeFiles/hello_local.dir/build.make CMakeFiles/hello_local.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles --progress-num=1,2,3 "Built target hello_local"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles --progress-num=3,4,5 "Built target hello_local"
 .PHONY : CMakeFiles/hello_local.dir/all
 
 # Build rule for subdir invocation for target.
