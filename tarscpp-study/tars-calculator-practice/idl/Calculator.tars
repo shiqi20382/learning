@@ -1,7 +1,34 @@
 module MathApp
 {
+    struct Student
+    {
+        0 require int id;
+        1 require string name;
+        2 optional int age;
+    };
+
+    struct CalculatorRequest
+    {
+        0 require int left;
+        1 require int right;
+    };
+
+    struct CalculatorResult
+    {
+        0 require int value;
+        1 optional string message;
+    };
+
     interface Calculator
     {
-        int add (int left, int right);
+        int add(int left, int right);
+        int subtract(int left, int right);
+        int multiply(int left, int right);
+        int divide(int left, int right);
+
+        CalculatorResult calculate(CalculatorRequest request);
+
+        vector<int> batchAdd(vector<int> values, int increment);
+        map<string, int> countByName(vector<string> names);
     };
 };

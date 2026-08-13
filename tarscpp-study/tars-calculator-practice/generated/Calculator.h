@@ -19,6 +19,320 @@ using namespace std;
 
 namespace MathApp
 {
+    struct Student : public tars::TarsStructBase
+    {
+    public:
+        static string className()
+        {
+            return "MathApp.Student";
+        }
+        static string MD5()
+        {
+            return "b1b405ff7377dd094bb2b1d7b527fd45";
+        }
+        Student()
+        {
+            resetDefautlt();
+        }
+        void resetDefautlt()
+        {
+            id = 0;
+            name = "";
+            age = 0;
+        }
+        template<typename WriterT>
+        void writeTo(tars::TarsOutputStream<WriterT>& _os) const
+        {
+            _os.write(id, 0);
+            _os.write(name, 1);
+            if (age != 0)
+            {
+                _os.write(age, 2);
+            }
+        }
+        template<typename ReaderT>
+        void readFrom(tars::TarsInputStream<ReaderT>& _is)
+        {
+            resetDefautlt();
+            _is.read(id, 0, true);
+            _is.read(name, 1, true);
+            _is.read(age, 2, false);
+        }
+        tars::JsonValueObjPtr writeToJson() const
+        {
+            tars::JsonValueObjPtr p = new tars::JsonValueObj();
+            p->value["id"] = tars::JsonOutput::writeJson(id);
+            p->value["name"] = tars::JsonOutput::writeJson(name);
+            p->value["age"] = tars::JsonOutput::writeJson(age);
+            return p;
+        }
+        string writeToJsonString() const
+        {
+            return tars::TC_Json::writeValue(writeToJson());
+        }
+        void readFromJson(const tars::JsonValuePtr & p, bool isRequire = true)
+        {
+            resetDefautlt();
+            if(NULL == p.get() || p->getType() != tars::eJsonTypeObj)
+            {
+                char s[128];
+                snprintf(s, sizeof(s), "read 'struct' type mismatch, get type: %d.", (p.get() ? p->getType() : 0));
+                throw tars::TC_Json_Exception(s);
+            }
+            tars::JsonValueObjPtr pObj=tars::JsonValueObjPtr::dynamicCast(p);
+            tars::JsonInput::readJson(id,pObj->value["id"], true);
+            tars::JsonInput::readJson(name,pObj->value["name"], true);
+            tars::JsonInput::readJson(age,pObj->value["age"], false);
+        }
+        void readFromJsonString(const string & str)
+        {
+            readFromJson(tars::TC_Json::getValue(str));
+        }
+        ostream& display(ostream& _os, int _level=0) const
+        {
+            tars::TarsDisplayer _ds(_os, _level);
+            _ds.display(id,"id");
+            _ds.display(name,"name");
+            _ds.display(age,"age");
+            return _os;
+        }
+        ostream& displaySimple(ostream& _os, int _level=0) const
+        {
+            tars::TarsDisplayer _ds(_os, _level);
+            _ds.displaySimple(id, true);
+            _ds.displaySimple(name, true);
+            _ds.displaySimple(age, false);
+            return _os;
+        }
+    public:
+        tars::Int32 id;
+        std::string name;
+        tars::Int32 age;
+    };
+    inline bool operator==(const Student&l, const Student&r)
+    {
+        return l.id == r.id && l.name == r.name && l.age == r.age;
+    }
+    inline bool operator!=(const Student&l, const Student&r)
+    {
+        return !(l == r);
+    }
+    inline ostream& operator<<(ostream & os,const Student&r)
+    {
+        os << r.writeToJsonString();
+        return os;
+    }
+    inline istream& operator>>(istream& is,Student&l)
+    {
+        std::istreambuf_iterator<char> eos;
+        std::string s(std::istreambuf_iterator<char>(is), eos);
+        l.readFromJsonString(s);
+        return is;
+    }
+
+    struct CalculatorRequest : public tars::TarsStructBase
+    {
+    public:
+        static string className()
+        {
+            return "MathApp.CalculatorRequest";
+        }
+        static string MD5()
+        {
+            return "21fd9c45eb837491f8205d65748d59eb";
+        }
+        CalculatorRequest()
+        {
+            resetDefautlt();
+        }
+        void resetDefautlt()
+        {
+            left = 0;
+            right = 0;
+        }
+        template<typename WriterT>
+        void writeTo(tars::TarsOutputStream<WriterT>& _os) const
+        {
+            _os.write(left, 0);
+            _os.write(right, 1);
+        }
+        template<typename ReaderT>
+        void readFrom(tars::TarsInputStream<ReaderT>& _is)
+        {
+            resetDefautlt();
+            _is.read(left, 0, true);
+            _is.read(right, 1, true);
+        }
+        tars::JsonValueObjPtr writeToJson() const
+        {
+            tars::JsonValueObjPtr p = new tars::JsonValueObj();
+            p->value["left"] = tars::JsonOutput::writeJson(left);
+            p->value["right"] = tars::JsonOutput::writeJson(right);
+            return p;
+        }
+        string writeToJsonString() const
+        {
+            return tars::TC_Json::writeValue(writeToJson());
+        }
+        void readFromJson(const tars::JsonValuePtr & p, bool isRequire = true)
+        {
+            resetDefautlt();
+            if(NULL == p.get() || p->getType() != tars::eJsonTypeObj)
+            {
+                char s[128];
+                snprintf(s, sizeof(s), "read 'struct' type mismatch, get type: %d.", (p.get() ? p->getType() : 0));
+                throw tars::TC_Json_Exception(s);
+            }
+            tars::JsonValueObjPtr pObj=tars::JsonValueObjPtr::dynamicCast(p);
+            tars::JsonInput::readJson(left,pObj->value["left"], true);
+            tars::JsonInput::readJson(right,pObj->value["right"], true);
+        }
+        void readFromJsonString(const string & str)
+        {
+            readFromJson(tars::TC_Json::getValue(str));
+        }
+        ostream& display(ostream& _os, int _level=0) const
+        {
+            tars::TarsDisplayer _ds(_os, _level);
+            _ds.display(left,"left");
+            _ds.display(right,"right");
+            return _os;
+        }
+        ostream& displaySimple(ostream& _os, int _level=0) const
+        {
+            tars::TarsDisplayer _ds(_os, _level);
+            _ds.displaySimple(left, true);
+            _ds.displaySimple(right, false);
+            return _os;
+        }
+    public:
+        tars::Int32 left;
+        tars::Int32 right;
+    };
+    inline bool operator==(const CalculatorRequest&l, const CalculatorRequest&r)
+    {
+        return l.left == r.left && l.right == r.right;
+    }
+    inline bool operator!=(const CalculatorRequest&l, const CalculatorRequest&r)
+    {
+        return !(l == r);
+    }
+    inline ostream& operator<<(ostream & os,const CalculatorRequest&r)
+    {
+        os << r.writeToJsonString();
+        return os;
+    }
+    inline istream& operator>>(istream& is,CalculatorRequest&l)
+    {
+        std::istreambuf_iterator<char> eos;
+        std::string s(std::istreambuf_iterator<char>(is), eos);
+        l.readFromJsonString(s);
+        return is;
+    }
+
+    struct CalculatorResult : public tars::TarsStructBase
+    {
+    public:
+        static string className()
+        {
+            return "MathApp.CalculatorResult";
+        }
+        static string MD5()
+        {
+            return "b84e4dd5dd1d7c43dbe702512024405f";
+        }
+        CalculatorResult()
+        {
+            resetDefautlt();
+        }
+        void resetDefautlt()
+        {
+            value = 0;
+            message = "";
+        }
+        template<typename WriterT>
+        void writeTo(tars::TarsOutputStream<WriterT>& _os) const
+        {
+            _os.write(value, 0);
+            if (message != "")
+            {
+                _os.write(message, 1);
+            }
+        }
+        template<typename ReaderT>
+        void readFrom(tars::TarsInputStream<ReaderT>& _is)
+        {
+            resetDefautlt();
+            _is.read(value, 0, true);
+            _is.read(message, 1, false);
+        }
+        tars::JsonValueObjPtr writeToJson() const
+        {
+            tars::JsonValueObjPtr p = new tars::JsonValueObj();
+            p->value["value"] = tars::JsonOutput::writeJson(value);
+            p->value["message"] = tars::JsonOutput::writeJson(message);
+            return p;
+        }
+        string writeToJsonString() const
+        {
+            return tars::TC_Json::writeValue(writeToJson());
+        }
+        void readFromJson(const tars::JsonValuePtr & p, bool isRequire = true)
+        {
+            resetDefautlt();
+            if(NULL == p.get() || p->getType() != tars::eJsonTypeObj)
+            {
+                char s[128];
+                snprintf(s, sizeof(s), "read 'struct' type mismatch, get type: %d.", (p.get() ? p->getType() : 0));
+                throw tars::TC_Json_Exception(s);
+            }
+            tars::JsonValueObjPtr pObj=tars::JsonValueObjPtr::dynamicCast(p);
+            tars::JsonInput::readJson(value,pObj->value["value"], true);
+            tars::JsonInput::readJson(message,pObj->value["message"], false);
+        }
+        void readFromJsonString(const string & str)
+        {
+            readFromJson(tars::TC_Json::getValue(str));
+        }
+        ostream& display(ostream& _os, int _level=0) const
+        {
+            tars::TarsDisplayer _ds(_os, _level);
+            _ds.display(value,"value");
+            _ds.display(message,"message");
+            return _os;
+        }
+        ostream& displaySimple(ostream& _os, int _level=0) const
+        {
+            tars::TarsDisplayer _ds(_os, _level);
+            _ds.displaySimple(value, true);
+            _ds.displaySimple(message, false);
+            return _os;
+        }
+    public:
+        tars::Int32 value;
+        std::string message;
+    };
+    inline bool operator==(const CalculatorResult&l, const CalculatorResult&r)
+    {
+        return l.value == r.value && l.message == r.message;
+    }
+    inline bool operator!=(const CalculatorResult&l, const CalculatorResult&r)
+    {
+        return !(l == r);
+    }
+    inline ostream& operator<<(ostream & os,const CalculatorResult&r)
+    {
+        os << r.writeToJsonString();
+        return os;
+    }
+    inline istream& operator>>(istream& is,CalculatorResult&l)
+    {
+        std::istreambuf_iterator<char> eos;
+        std::string s(std::istreambuf_iterator<char>(is), eos);
+        l.readFromJsonString(s);
+        return is;
+    }
+
 
     /* callback of async proxy for client */
     class CalculatorPrxCallback: public tars::ServantProxyCallback
@@ -29,6 +343,42 @@ namespace MathApp
         { throw std::runtime_error("callback_add() override incorrect."); }
         virtual void callback_add_exception(tars::Int32 ret)
         { throw std::runtime_error("callback_add_exception() override incorrect."); }
+
+        virtual void callback_batchAdd(const vector<tars::Int32>& ret)
+        { throw std::runtime_error("callback_batchAdd() override incorrect."); }
+        virtual void callback_batchAdd_exception(tars::Int32 ret)
+        { throw std::runtime_error("callback_batchAdd_exception() override incorrect."); }
+        virtual void callback_batchAdd(vector<tars::Int32>&& ret)
+        { callback_batchAdd(ret); }
+
+        virtual void callback_calculate(const MathApp::CalculatorResult& ret)
+        { throw std::runtime_error("callback_calculate() override incorrect."); }
+        virtual void callback_calculate_exception(tars::Int32 ret)
+        { throw std::runtime_error("callback_calculate_exception() override incorrect."); }
+        virtual void callback_calculate(MathApp::CalculatorResult&& ret)
+        { callback_calculate(ret); }
+
+        virtual void callback_countByName(const map<std::string, tars::Int32>& ret)
+        { throw std::runtime_error("callback_countByName() override incorrect."); }
+        virtual void callback_countByName_exception(tars::Int32 ret)
+        { throw std::runtime_error("callback_countByName_exception() override incorrect."); }
+        virtual void callback_countByName(map<std::string, tars::Int32>&& ret)
+        { callback_countByName(ret); }
+
+        virtual void callback_divide(tars::Int32 ret)
+        { throw std::runtime_error("callback_divide() override incorrect."); }
+        virtual void callback_divide_exception(tars::Int32 ret)
+        { throw std::runtime_error("callback_divide_exception() override incorrect."); }
+
+        virtual void callback_multiply(tars::Int32 ret)
+        { throw std::runtime_error("callback_multiply() override incorrect."); }
+        virtual void callback_multiply_exception(tars::Int32 ret)
+        { throw std::runtime_error("callback_multiply_exception() override incorrect."); }
+
+        virtual void callback_subtract(tars::Int32 ret)
+        { throw std::runtime_error("callback_subtract() override incorrect."); }
+        virtual void callback_subtract_exception(tars::Int32 ret)
+        { throw std::runtime_error("callback_subtract_exception() override incorrect."); }
 
     public:
         virtual const map<std::string, std::string> & getResponseContext() const
@@ -48,10 +398,16 @@ namespace MathApp
         {
             static ::std::string __Calculator_all[]=
             {
-                "add"
+                "add",
+                "batchAdd",
+                "calculate",
+                "countByName",
+                "divide",
+                "multiply",
+                "subtract"
             };
             auto it = _msg_->response->status.find("TARS_FUNC");
-            pair<string*, string*> r = equal_range(__Calculator_all, __Calculator_all+1, (it==_msg_->response->status.end())?_msg_->request.sFuncName:it->second);
+            pair<string*, string*> r = equal_range(__Calculator_all, __Calculator_all+7, (it==_msg_->response->status.end())?_msg_->request.sFuncName:it->second);
             if(r.first == r.second) return tars::TARSSERVERNOFUNCERR;
             switch(r.first - __Calculator_all)
             {
@@ -93,6 +449,270 @@ namespace MathApp
                     pCbtd->setResponseContext(_msg_->response->context);
 
                     callback_add(_ret);
+
+                    pCbtd->delResponseContext();
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 1:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_batchAdd_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+                    vector<tars::Int32> _ret;
+                    _is.read(_ret, 0, true);
+
+                    ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+                    if (_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        string _trace_param_;
+                        int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CR, _is.size());
+                        if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                        {
+                            tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                            _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                            _trace_param_ = tars::TC_Json::writeValue(_p_);
+                        }
+                        else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                        {
+                            _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                        }
+                        TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CR), TRACE_ANNOTATION_CR, "", getModuleName(), "batchAdd", 0, _trace_param_, "");
+                    }
+
+                    CallbackThreadData * pCbtd = CallbackThreadData::getData();
+                    assert(pCbtd != NULL);
+
+                    pCbtd->setResponseContext(_msg_->response->context);
+
+                    callback_batchAdd(std::move(_ret));
+
+                    pCbtd->delResponseContext();
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 2:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_calculate_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+                    MathApp::CalculatorResult _ret;
+                    _is.read(_ret, 0, true);
+
+                    ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+                    if (_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        string _trace_param_;
+                        int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CR, _is.size());
+                        if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                        {
+                            tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                            _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                            _trace_param_ = tars::TC_Json::writeValue(_p_);
+                        }
+                        else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                        {
+                            _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                        }
+                        TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CR), TRACE_ANNOTATION_CR, "", getModuleName(), "calculate", 0, _trace_param_, "");
+                    }
+
+                    CallbackThreadData * pCbtd = CallbackThreadData::getData();
+                    assert(pCbtd != NULL);
+
+                    pCbtd->setResponseContext(_msg_->response->context);
+
+                    callback_calculate(std::move(_ret));
+
+                    pCbtd->delResponseContext();
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 3:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_countByName_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+                    map<std::string, tars::Int32> _ret;
+                    _is.read(_ret, 0, true);
+
+                    ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+                    if (_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        string _trace_param_;
+                        int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CR, _is.size());
+                        if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                        {
+                            tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                            _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                            _trace_param_ = tars::TC_Json::writeValue(_p_);
+                        }
+                        else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                        {
+                            _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                        }
+                        TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CR), TRACE_ANNOTATION_CR, "", getModuleName(), "countByName", 0, _trace_param_, "");
+                    }
+
+                    CallbackThreadData * pCbtd = CallbackThreadData::getData();
+                    assert(pCbtd != NULL);
+
+                    pCbtd->setResponseContext(_msg_->response->context);
+
+                    callback_countByName(std::move(_ret));
+
+                    pCbtd->delResponseContext();
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 4:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_divide_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+                    tars::Int32 _ret;
+                    _is.read(_ret, 0, true);
+
+                    ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+                    if (_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        string _trace_param_;
+                        int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CR, _is.size());
+                        if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                        {
+                            tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                            _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                            _trace_param_ = tars::TC_Json::writeValue(_p_);
+                        }
+                        else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                        {
+                            _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                        }
+                        TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CR), TRACE_ANNOTATION_CR, "", getModuleName(), "divide", 0, _trace_param_, "");
+                    }
+
+                    CallbackThreadData * pCbtd = CallbackThreadData::getData();
+                    assert(pCbtd != NULL);
+
+                    pCbtd->setResponseContext(_msg_->response->context);
+
+                    callback_divide(_ret);
+
+                    pCbtd->delResponseContext();
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 5:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_multiply_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+                    tars::Int32 _ret;
+                    _is.read(_ret, 0, true);
+
+                    ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+                    if (_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        string _trace_param_;
+                        int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CR, _is.size());
+                        if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                        {
+                            tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                            _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                            _trace_param_ = tars::TC_Json::writeValue(_p_);
+                        }
+                        else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                        {
+                            _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                        }
+                        TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CR), TRACE_ANNOTATION_CR, "", getModuleName(), "multiply", 0, _trace_param_, "");
+                    }
+
+                    CallbackThreadData * pCbtd = CallbackThreadData::getData();
+                    assert(pCbtd != NULL);
+
+                    pCbtd->setResponseContext(_msg_->response->context);
+
+                    callback_multiply(_ret);
+
+                    pCbtd->delResponseContext();
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 6:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_subtract_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+                    tars::Int32 _ret;
+                    _is.read(_ret, 0, true);
+
+                    ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+                    if (_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        string _trace_param_;
+                        int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CR, _is.size());
+                        if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                        {
+                            tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                            _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                            _trace_param_ = tars::TC_Json::writeValue(_p_);
+                        }
+                        else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                        {
+                            _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                        }
+                        TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CR), TRACE_ANNOTATION_CR, "", getModuleName(), "subtract", 0, _trace_param_, "");
+                    }
+
+                    CallbackThreadData * pCbtd = CallbackThreadData::getData();
+                    assert(pCbtd != NULL);
+
+                    pCbtd->setResponseContext(_msg_->response->context);
+
+                    callback_subtract(_ret);
 
                     pCbtd->delResponseContext();
 
@@ -141,14 +761,194 @@ namespace MathApp
         tars::Promise< CalculatorPrxCallbackPromise::PromiseaddPtr > _promise_add;
 
     public:
+        struct PromisebatchAdd: virtual public TC_HandleBase
+        {
+        public:
+            vector<tars::Int32> _ret;
+            map<std::string, std::string> _mRspContext;
+        };
+        
+        typedef tars::TC_AutoPtr< CalculatorPrxCallbackPromise::PromisebatchAdd > PromisebatchAddPtr;
+
+        CalculatorPrxCallbackPromise(const tars::Promise< CalculatorPrxCallbackPromise::PromisebatchAddPtr > &promise)
+        : _promise_batchAdd(promise)
+        {}
+        
+        virtual void callback_batchAdd(const CalculatorPrxCallbackPromise::PromisebatchAddPtr &ptr)
+        {
+            _promise_batchAdd.setValue(ptr);
+        }
+        virtual void callback_batchAdd_exception(tars::Int32 ret)
+        {
+            std::string str("");
+            str += "Function:batchAdd_exception|Ret:";
+            str += TC_Common::tostr(ret);
+            _promise_batchAdd.setException(tars::copyException(str, ret));
+        }
+
+    protected:
+        tars::Promise< CalculatorPrxCallbackPromise::PromisebatchAddPtr > _promise_batchAdd;
+
+    public:
+        struct Promisecalculate: virtual public TC_HandleBase
+        {
+        public:
+            MathApp::CalculatorResult _ret;
+            map<std::string, std::string> _mRspContext;
+        };
+        
+        typedef tars::TC_AutoPtr< CalculatorPrxCallbackPromise::Promisecalculate > PromisecalculatePtr;
+
+        CalculatorPrxCallbackPromise(const tars::Promise< CalculatorPrxCallbackPromise::PromisecalculatePtr > &promise)
+        : _promise_calculate(promise)
+        {}
+        
+        virtual void callback_calculate(const CalculatorPrxCallbackPromise::PromisecalculatePtr &ptr)
+        {
+            _promise_calculate.setValue(ptr);
+        }
+        virtual void callback_calculate_exception(tars::Int32 ret)
+        {
+            std::string str("");
+            str += "Function:calculate_exception|Ret:";
+            str += TC_Common::tostr(ret);
+            _promise_calculate.setException(tars::copyException(str, ret));
+        }
+
+    protected:
+        tars::Promise< CalculatorPrxCallbackPromise::PromisecalculatePtr > _promise_calculate;
+
+    public:
+        struct PromisecountByName: virtual public TC_HandleBase
+        {
+        public:
+            map<std::string, tars::Int32> _ret;
+            map<std::string, std::string> _mRspContext;
+        };
+        
+        typedef tars::TC_AutoPtr< CalculatorPrxCallbackPromise::PromisecountByName > PromisecountByNamePtr;
+
+        CalculatorPrxCallbackPromise(const tars::Promise< CalculatorPrxCallbackPromise::PromisecountByNamePtr > &promise)
+        : _promise_countByName(promise)
+        {}
+        
+        virtual void callback_countByName(const CalculatorPrxCallbackPromise::PromisecountByNamePtr &ptr)
+        {
+            _promise_countByName.setValue(ptr);
+        }
+        virtual void callback_countByName_exception(tars::Int32 ret)
+        {
+            std::string str("");
+            str += "Function:countByName_exception|Ret:";
+            str += TC_Common::tostr(ret);
+            _promise_countByName.setException(tars::copyException(str, ret));
+        }
+
+    protected:
+        tars::Promise< CalculatorPrxCallbackPromise::PromisecountByNamePtr > _promise_countByName;
+
+    public:
+        struct Promisedivide: virtual public TC_HandleBase
+        {
+        public:
+            tars::Int32 _ret;
+            map<std::string, std::string> _mRspContext;
+        };
+        
+        typedef tars::TC_AutoPtr< CalculatorPrxCallbackPromise::Promisedivide > PromisedividePtr;
+
+        CalculatorPrxCallbackPromise(const tars::Promise< CalculatorPrxCallbackPromise::PromisedividePtr > &promise)
+        : _promise_divide(promise)
+        {}
+        
+        virtual void callback_divide(const CalculatorPrxCallbackPromise::PromisedividePtr &ptr)
+        {
+            _promise_divide.setValue(ptr);
+        }
+        virtual void callback_divide_exception(tars::Int32 ret)
+        {
+            std::string str("");
+            str += "Function:divide_exception|Ret:";
+            str += TC_Common::tostr(ret);
+            _promise_divide.setException(tars::copyException(str, ret));
+        }
+
+    protected:
+        tars::Promise< CalculatorPrxCallbackPromise::PromisedividePtr > _promise_divide;
+
+    public:
+        struct Promisemultiply: virtual public TC_HandleBase
+        {
+        public:
+            tars::Int32 _ret;
+            map<std::string, std::string> _mRspContext;
+        };
+        
+        typedef tars::TC_AutoPtr< CalculatorPrxCallbackPromise::Promisemultiply > PromisemultiplyPtr;
+
+        CalculatorPrxCallbackPromise(const tars::Promise< CalculatorPrxCallbackPromise::PromisemultiplyPtr > &promise)
+        : _promise_multiply(promise)
+        {}
+        
+        virtual void callback_multiply(const CalculatorPrxCallbackPromise::PromisemultiplyPtr &ptr)
+        {
+            _promise_multiply.setValue(ptr);
+        }
+        virtual void callback_multiply_exception(tars::Int32 ret)
+        {
+            std::string str("");
+            str += "Function:multiply_exception|Ret:";
+            str += TC_Common::tostr(ret);
+            _promise_multiply.setException(tars::copyException(str, ret));
+        }
+
+    protected:
+        tars::Promise< CalculatorPrxCallbackPromise::PromisemultiplyPtr > _promise_multiply;
+
+    public:
+        struct Promisesubtract: virtual public TC_HandleBase
+        {
+        public:
+            tars::Int32 _ret;
+            map<std::string, std::string> _mRspContext;
+        };
+        
+        typedef tars::TC_AutoPtr< CalculatorPrxCallbackPromise::Promisesubtract > PromisesubtractPtr;
+
+        CalculatorPrxCallbackPromise(const tars::Promise< CalculatorPrxCallbackPromise::PromisesubtractPtr > &promise)
+        : _promise_subtract(promise)
+        {}
+        
+        virtual void callback_subtract(const CalculatorPrxCallbackPromise::PromisesubtractPtr &ptr)
+        {
+            _promise_subtract.setValue(ptr);
+        }
+        virtual void callback_subtract_exception(tars::Int32 ret)
+        {
+            std::string str("");
+            str += "Function:subtract_exception|Ret:";
+            str += TC_Common::tostr(ret);
+            _promise_subtract.setException(tars::copyException(str, ret));
+        }
+
+    protected:
+        tars::Promise< CalculatorPrxCallbackPromise::PromisesubtractPtr > _promise_subtract;
+
+    public:
         virtual int onDispatch(tars::ReqMessagePtr _msg_)
         {
             static ::std::string __Calculator_all[]=
             {
-                "add"
+                "add",
+                "batchAdd",
+                "calculate",
+                "countByName",
+                "divide",
+                "multiply",
+                "subtract"
             };
 
-            pair<string*, string*> r = equal_range(__Calculator_all, __Calculator_all+1, string(_msg_->request.sFuncName));
+            pair<string*, string*> r = equal_range(__Calculator_all, __Calculator_all+7, string(_msg_->request.sFuncName));
             if(r.first == r.second) return tars::TARSSERVERNOFUNCERR;
             switch(r.first - __Calculator_all)
             {
@@ -191,6 +991,240 @@ namespace MathApp
                     return tars::TARSSERVERSUCCESS;
 
                 }
+                case 1:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_batchAdd_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+
+                    CalculatorPrxCallbackPromise::PromisebatchAddPtr ptr (new CalculatorPrxCallbackPromise::PromisebatchAdd());
+
+                    try
+                    {
+                        _is.read(ptr->_ret, 0, true);
+
+                    }
+                    catch(std::exception &ex)
+                    {
+                        callback_batchAdd_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+                    catch(...)
+                    {
+                        callback_batchAdd_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+
+                    ptr->_mRspContext = _msg_->response->context;
+
+                    callback_batchAdd(ptr);
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 2:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_calculate_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+
+                    CalculatorPrxCallbackPromise::PromisecalculatePtr ptr (new CalculatorPrxCallbackPromise::Promisecalculate());
+
+                    try
+                    {
+                        _is.read(ptr->_ret, 0, true);
+
+                    }
+                    catch(std::exception &ex)
+                    {
+                        callback_calculate_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+                    catch(...)
+                    {
+                        callback_calculate_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+
+                    ptr->_mRspContext = _msg_->response->context;
+
+                    callback_calculate(ptr);
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 3:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_countByName_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+
+                    CalculatorPrxCallbackPromise::PromisecountByNamePtr ptr (new CalculatorPrxCallbackPromise::PromisecountByName());
+
+                    try
+                    {
+                        _is.read(ptr->_ret, 0, true);
+
+                    }
+                    catch(std::exception &ex)
+                    {
+                        callback_countByName_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+                    catch(...)
+                    {
+                        callback_countByName_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+
+                    ptr->_mRspContext = _msg_->response->context;
+
+                    callback_countByName(ptr);
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 4:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_divide_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+
+                    CalculatorPrxCallbackPromise::PromisedividePtr ptr (new CalculatorPrxCallbackPromise::Promisedivide());
+
+                    try
+                    {
+                        _is.read(ptr->_ret, 0, true);
+
+                    }
+                    catch(std::exception &ex)
+                    {
+                        callback_divide_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+                    catch(...)
+                    {
+                        callback_divide_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+
+                    ptr->_mRspContext = _msg_->response->context;
+
+                    callback_divide(ptr);
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 5:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_multiply_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+
+                    CalculatorPrxCallbackPromise::PromisemultiplyPtr ptr (new CalculatorPrxCallbackPromise::Promisemultiply());
+
+                    try
+                    {
+                        _is.read(ptr->_ret, 0, true);
+
+                    }
+                    catch(std::exception &ex)
+                    {
+                        callback_multiply_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+                    catch(...)
+                    {
+                        callback_multiply_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+
+                    ptr->_mRspContext = _msg_->response->context;
+
+                    callback_multiply(ptr);
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 6:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_subtract_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+
+                    CalculatorPrxCallbackPromise::PromisesubtractPtr ptr (new CalculatorPrxCallbackPromise::Promisesubtract());
+
+                    try
+                    {
+                        _is.read(ptr->_ret, 0, true);
+
+                    }
+                    catch(std::exception &ex)
+                    {
+                        callback_subtract_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+                    catch(...)
+                    {
+                        callback_subtract_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+
+                    ptr->_mRspContext = _msg_->response->context;
+
+                    callback_subtract(ptr);
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
             }
             return tars::TARSSERVERNOFUNCERR;
         }
@@ -213,10 +1247,16 @@ namespace MathApp
         {
             static ::std::string __Calculator_all[]=
             {
-                "add"
+                "add",
+                "batchAdd",
+                "calculate",
+                "countByName",
+                "divide",
+                "multiply",
+                "subtract"
             };
 
-            pair<string*, string*> r = equal_range(__Calculator_all, __Calculator_all+1, string(_msg_->request.sFuncName));
+            pair<string*, string*> r = equal_range(__Calculator_all, __Calculator_all+7, string(_msg_->request.sFuncName));
             if(r.first == r.second) return tars::TARSSERVERNOFUNCERR;
             switch(r.first - __Calculator_all)
             {
@@ -250,6 +1290,228 @@ namespace MathApp
                     catch(...)
                     {
                         callback_add_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 1:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_batchAdd_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+                    try
+                    {
+                        vector<tars::Int32> _ret;
+                        _is.read(_ret, 0, true);
+
+                        setResponseContext(_msg_->response->context);
+
+                        callback_batchAdd(std::move(_ret));
+
+                    }
+                    catch(std::exception &ex)
+                    {
+                        callback_batchAdd_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+                    catch(...)
+                    {
+                        callback_batchAdd_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 2:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_calculate_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+                    try
+                    {
+                        MathApp::CalculatorResult _ret;
+                        _is.read(_ret, 0, true);
+
+                        setResponseContext(_msg_->response->context);
+
+                        callback_calculate(std::move(_ret));
+
+                    }
+                    catch(std::exception &ex)
+                    {
+                        callback_calculate_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+                    catch(...)
+                    {
+                        callback_calculate_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 3:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_countByName_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+                    try
+                    {
+                        map<std::string, tars::Int32> _ret;
+                        _is.read(_ret, 0, true);
+
+                        setResponseContext(_msg_->response->context);
+
+                        callback_countByName(std::move(_ret));
+
+                    }
+                    catch(std::exception &ex)
+                    {
+                        callback_countByName_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+                    catch(...)
+                    {
+                        callback_countByName_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 4:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_divide_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+                    try
+                    {
+                        tars::Int32 _ret;
+                        _is.read(_ret, 0, true);
+
+                        setResponseContext(_msg_->response->context);
+
+                        callback_divide(_ret);
+
+                    }
+                    catch(std::exception &ex)
+                    {
+                        callback_divide_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+                    catch(...)
+                    {
+                        callback_divide_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 5:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_multiply_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+                    try
+                    {
+                        tars::Int32 _ret;
+                        _is.read(_ret, 0, true);
+
+                        setResponseContext(_msg_->response->context);
+
+                        callback_multiply(_ret);
+
+                    }
+                    catch(std::exception &ex)
+                    {
+                        callback_multiply_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+                    catch(...)
+                    {
+                        callback_multiply_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 6:
+                {
+                    if (_msg_->response->iRet != tars::TARSSERVERSUCCESS)
+                    {
+                        callback_subtract_exception(_msg_->response->iRet);
+
+                        return _msg_->response->iRet;
+                    }
+                    tars::TarsInputStream<tars::BufferReader> _is;
+
+                    _is.setBuffer(_msg_->response->sBuffer);
+                    try
+                    {
+                        tars::Int32 _ret;
+                        _is.read(_ret, 0, true);
+
+                        setResponseContext(_msg_->response->context);
+
+                        callback_subtract(_ret);
+
+                    }
+                    catch(std::exception &ex)
+                    {
+                        callback_subtract_exception(tars::TARSCLIENTDECODEERR);
+
+                        return tars::TARSCLIENTDECODEERR;
+                    }
+                    catch(...)
+                    {
+                        callback_subtract_exception(tars::TARSCLIENTDECODEERR);
 
                         return tars::TARSCLIENTDECODEERR;
                     }
@@ -378,6 +1640,636 @@ namespace MathApp
             tars_invoke_async(tars::TARSNORMAL,"add", _os, context, _mStatus, callback, true);
         }
 
+        vector<tars::Int32> batchAdd(const vector<tars::Int32> & values,tars::Int32 increment,const map<string, string> &context = TARS_CONTEXT(),map<string, string> * pResponseContext = NULL)
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(values, 1);
+            _os.write(increment, 2);
+            ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                _pSptd_->newSpan();
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CS, _os.getLength());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value["values"] = tars::JsonOutput::writeJson(values);
+                    _p_->value["increment"] = tars::JsonOutput::writeJson(increment);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CS), TRACE_ANNOTATION_CS, tars_moduleName(), tars_name(), "batchAdd", 0, _trace_param_, "");
+            }
+
+            std::map<string, string> _mStatus;
+            shared_ptr<tars::ResponsePacket> rep = tars_invoke(tars::TARSNORMAL,"batchAdd", _os, context, _mStatus);
+            if(pResponseContext)
+            {
+                pResponseContext->swap(rep->context);
+            }
+
+            tars::TarsInputStream<tars::BufferReader> _is;
+            _is.setBuffer(rep->sBuffer);
+            vector<tars::Int32> _ret;
+            _is.read(_ret, 0, true);
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CR, _is.size());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CR), TRACE_ANNOTATION_CR, tars_moduleName(), tars_name(), "batchAdd", 0, _trace_param_, "");
+            }
+
+            return _ret;
+        }
+
+        void async_batchAdd(CalculatorPrxCallbackPtr callback,const vector<tars::Int32> &values,tars::Int32 increment,const map<string, string>& context = TARS_CONTEXT())
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(values, 1);
+            _os.write(increment, 2);
+            std::map<string, string> _mStatus;
+            ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                _pSptd_->newSpan();
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CS, _os.getLength());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value["values"] = tars::JsonOutput::writeJson(values);
+                    _p_->value["increment"] = tars::JsonOutput::writeJson(increment);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CS), TRACE_ANNOTATION_CS, tars_moduleName(), tars_name(), "batchAdd", 0, _trace_param_, "");
+            }
+            tars_invoke_async(tars::TARSNORMAL,"batchAdd", _os, context, _mStatus, callback);
+        }
+        
+        tars::Future< CalculatorPrxCallbackPromise::PromisebatchAddPtr > promise_async_batchAdd(const vector<tars::Int32> &values,tars::Int32 increment,const map<string, string>& context)
+        {
+            tars::Promise< CalculatorPrxCallbackPromise::PromisebatchAddPtr > promise;
+            CalculatorPrxCallbackPromisePtr callback (new CalculatorPrxCallbackPromise(promise));
+
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(values, 1);
+            _os.write(increment, 2);
+            std::map<string, string> _mStatus;
+            tars_invoke_async(tars::TARSNORMAL,"batchAdd", _os, context, _mStatus, callback);
+
+            return promise.getFuture();
+        }
+
+        void coro_batchAdd(CalculatorCoroPrxCallbackPtr callback,const vector<tars::Int32> &values,tars::Int32 increment,const map<string, string>& context = TARS_CONTEXT())
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(values, 1);
+            _os.write(increment, 2);
+            std::map<string, string> _mStatus;
+            tars_invoke_async(tars::TARSNORMAL,"batchAdd", _os, context, _mStatus, callback, true);
+        }
+
+        MathApp::CalculatorResult calculate(const MathApp::CalculatorRequest & request,const map<string, string> &context = TARS_CONTEXT(),map<string, string> * pResponseContext = NULL)
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(request, 1);
+            ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                _pSptd_->newSpan();
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CS, _os.getLength());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value["request"] = tars::JsonOutput::writeJson(request);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CS), TRACE_ANNOTATION_CS, tars_moduleName(), tars_name(), "calculate", 0, _trace_param_, "");
+            }
+
+            std::map<string, string> _mStatus;
+            shared_ptr<tars::ResponsePacket> rep = tars_invoke(tars::TARSNORMAL,"calculate", _os, context, _mStatus);
+            if(pResponseContext)
+            {
+                pResponseContext->swap(rep->context);
+            }
+
+            tars::TarsInputStream<tars::BufferReader> _is;
+            _is.setBuffer(rep->sBuffer);
+            MathApp::CalculatorResult _ret;
+            _is.read(_ret, 0, true);
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CR, _is.size());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CR), TRACE_ANNOTATION_CR, tars_moduleName(), tars_name(), "calculate", 0, _trace_param_, "");
+            }
+
+            return _ret;
+        }
+
+        void async_calculate(CalculatorPrxCallbackPtr callback,const MathApp::CalculatorRequest &request,const map<string, string>& context = TARS_CONTEXT())
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(request, 1);
+            std::map<string, string> _mStatus;
+            ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                _pSptd_->newSpan();
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CS, _os.getLength());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value["request"] = tars::JsonOutput::writeJson(request);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CS), TRACE_ANNOTATION_CS, tars_moduleName(), tars_name(), "calculate", 0, _trace_param_, "");
+            }
+            tars_invoke_async(tars::TARSNORMAL,"calculate", _os, context, _mStatus, callback);
+        }
+        
+        tars::Future< CalculatorPrxCallbackPromise::PromisecalculatePtr > promise_async_calculate(const MathApp::CalculatorRequest &request,const map<string, string>& context)
+        {
+            tars::Promise< CalculatorPrxCallbackPromise::PromisecalculatePtr > promise;
+            CalculatorPrxCallbackPromisePtr callback (new CalculatorPrxCallbackPromise(promise));
+
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(request, 1);
+            std::map<string, string> _mStatus;
+            tars_invoke_async(tars::TARSNORMAL,"calculate", _os, context, _mStatus, callback);
+
+            return promise.getFuture();
+        }
+
+        void coro_calculate(CalculatorCoroPrxCallbackPtr callback,const MathApp::CalculatorRequest &request,const map<string, string>& context = TARS_CONTEXT())
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(request, 1);
+            std::map<string, string> _mStatus;
+            tars_invoke_async(tars::TARSNORMAL,"calculate", _os, context, _mStatus, callback, true);
+        }
+
+        map<std::string, tars::Int32> countByName(const vector<std::string> & names,const map<string, string> &context = TARS_CONTEXT(),map<string, string> * pResponseContext = NULL)
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(names, 1);
+            ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                _pSptd_->newSpan();
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CS, _os.getLength());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value["names"] = tars::JsonOutput::writeJson(names);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CS), TRACE_ANNOTATION_CS, tars_moduleName(), tars_name(), "countByName", 0, _trace_param_, "");
+            }
+
+            std::map<string, string> _mStatus;
+            shared_ptr<tars::ResponsePacket> rep = tars_invoke(tars::TARSNORMAL,"countByName", _os, context, _mStatus);
+            if(pResponseContext)
+            {
+                pResponseContext->swap(rep->context);
+            }
+
+            tars::TarsInputStream<tars::BufferReader> _is;
+            _is.setBuffer(rep->sBuffer);
+            map<std::string, tars::Int32> _ret;
+            _is.read(_ret, 0, true);
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CR, _is.size());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CR), TRACE_ANNOTATION_CR, tars_moduleName(), tars_name(), "countByName", 0, _trace_param_, "");
+            }
+
+            return _ret;
+        }
+
+        void async_countByName(CalculatorPrxCallbackPtr callback,const vector<std::string> &names,const map<string, string>& context = TARS_CONTEXT())
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(names, 1);
+            std::map<string, string> _mStatus;
+            ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                _pSptd_->newSpan();
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CS, _os.getLength());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value["names"] = tars::JsonOutput::writeJson(names);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CS), TRACE_ANNOTATION_CS, tars_moduleName(), tars_name(), "countByName", 0, _trace_param_, "");
+            }
+            tars_invoke_async(tars::TARSNORMAL,"countByName", _os, context, _mStatus, callback);
+        }
+        
+        tars::Future< CalculatorPrxCallbackPromise::PromisecountByNamePtr > promise_async_countByName(const vector<std::string> &names,const map<string, string>& context)
+        {
+            tars::Promise< CalculatorPrxCallbackPromise::PromisecountByNamePtr > promise;
+            CalculatorPrxCallbackPromisePtr callback (new CalculatorPrxCallbackPromise(promise));
+
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(names, 1);
+            std::map<string, string> _mStatus;
+            tars_invoke_async(tars::TARSNORMAL,"countByName", _os, context, _mStatus, callback);
+
+            return promise.getFuture();
+        }
+
+        void coro_countByName(CalculatorCoroPrxCallbackPtr callback,const vector<std::string> &names,const map<string, string>& context = TARS_CONTEXT())
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(names, 1);
+            std::map<string, string> _mStatus;
+            tars_invoke_async(tars::TARSNORMAL,"countByName", _os, context, _mStatus, callback, true);
+        }
+
+        tars::Int32 divide(tars::Int32 left,tars::Int32 right,const map<string, string> &context = TARS_CONTEXT(),map<string, string> * pResponseContext = NULL)
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(left, 1);
+            _os.write(right, 2);
+            ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                _pSptd_->newSpan();
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CS, _os.getLength());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value["left"] = tars::JsonOutput::writeJson(left);
+                    _p_->value["right"] = tars::JsonOutput::writeJson(right);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CS), TRACE_ANNOTATION_CS, tars_moduleName(), tars_name(), "divide", 0, _trace_param_, "");
+            }
+
+            std::map<string, string> _mStatus;
+            shared_ptr<tars::ResponsePacket> rep = tars_invoke(tars::TARSNORMAL,"divide", _os, context, _mStatus);
+            if(pResponseContext)
+            {
+                pResponseContext->swap(rep->context);
+            }
+
+            tars::TarsInputStream<tars::BufferReader> _is;
+            _is.setBuffer(rep->sBuffer);
+            tars::Int32 _ret;
+            _is.read(_ret, 0, true);
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CR, _is.size());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CR), TRACE_ANNOTATION_CR, tars_moduleName(), tars_name(), "divide", 0, _trace_param_, "");
+            }
+
+            return _ret;
+        }
+
+        void async_divide(CalculatorPrxCallbackPtr callback,tars::Int32 left,tars::Int32 right,const map<string, string>& context = TARS_CONTEXT())
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(left, 1);
+            _os.write(right, 2);
+            std::map<string, string> _mStatus;
+            ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                _pSptd_->newSpan();
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CS, _os.getLength());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value["left"] = tars::JsonOutput::writeJson(left);
+                    _p_->value["right"] = tars::JsonOutput::writeJson(right);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CS), TRACE_ANNOTATION_CS, tars_moduleName(), tars_name(), "divide", 0, _trace_param_, "");
+            }
+            tars_invoke_async(tars::TARSNORMAL,"divide", _os, context, _mStatus, callback);
+        }
+        
+        tars::Future< CalculatorPrxCallbackPromise::PromisedividePtr > promise_async_divide(tars::Int32 left,tars::Int32 right,const map<string, string>& context)
+        {
+            tars::Promise< CalculatorPrxCallbackPromise::PromisedividePtr > promise;
+            CalculatorPrxCallbackPromisePtr callback (new CalculatorPrxCallbackPromise(promise));
+
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(left, 1);
+            _os.write(right, 2);
+            std::map<string, string> _mStatus;
+            tars_invoke_async(tars::TARSNORMAL,"divide", _os, context, _mStatus, callback);
+
+            return promise.getFuture();
+        }
+
+        void coro_divide(CalculatorCoroPrxCallbackPtr callback,tars::Int32 left,tars::Int32 right,const map<string, string>& context = TARS_CONTEXT())
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(left, 1);
+            _os.write(right, 2);
+            std::map<string, string> _mStatus;
+            tars_invoke_async(tars::TARSNORMAL,"divide", _os, context, _mStatus, callback, true);
+        }
+
+        tars::Int32 multiply(tars::Int32 left,tars::Int32 right,const map<string, string> &context = TARS_CONTEXT(),map<string, string> * pResponseContext = NULL)
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(left, 1);
+            _os.write(right, 2);
+            ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                _pSptd_->newSpan();
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CS, _os.getLength());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value["left"] = tars::JsonOutput::writeJson(left);
+                    _p_->value["right"] = tars::JsonOutput::writeJson(right);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CS), TRACE_ANNOTATION_CS, tars_moduleName(), tars_name(), "multiply", 0, _trace_param_, "");
+            }
+
+            std::map<string, string> _mStatus;
+            shared_ptr<tars::ResponsePacket> rep = tars_invoke(tars::TARSNORMAL,"multiply", _os, context, _mStatus);
+            if(pResponseContext)
+            {
+                pResponseContext->swap(rep->context);
+            }
+
+            tars::TarsInputStream<tars::BufferReader> _is;
+            _is.setBuffer(rep->sBuffer);
+            tars::Int32 _ret;
+            _is.read(_ret, 0, true);
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CR, _is.size());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CR), TRACE_ANNOTATION_CR, tars_moduleName(), tars_name(), "multiply", 0, _trace_param_, "");
+            }
+
+            return _ret;
+        }
+
+        void async_multiply(CalculatorPrxCallbackPtr callback,tars::Int32 left,tars::Int32 right,const map<string, string>& context = TARS_CONTEXT())
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(left, 1);
+            _os.write(right, 2);
+            std::map<string, string> _mStatus;
+            ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                _pSptd_->newSpan();
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CS, _os.getLength());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value["left"] = tars::JsonOutput::writeJson(left);
+                    _p_->value["right"] = tars::JsonOutput::writeJson(right);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CS), TRACE_ANNOTATION_CS, tars_moduleName(), tars_name(), "multiply", 0, _trace_param_, "");
+            }
+            tars_invoke_async(tars::TARSNORMAL,"multiply", _os, context, _mStatus, callback);
+        }
+        
+        tars::Future< CalculatorPrxCallbackPromise::PromisemultiplyPtr > promise_async_multiply(tars::Int32 left,tars::Int32 right,const map<string, string>& context)
+        {
+            tars::Promise< CalculatorPrxCallbackPromise::PromisemultiplyPtr > promise;
+            CalculatorPrxCallbackPromisePtr callback (new CalculatorPrxCallbackPromise(promise));
+
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(left, 1);
+            _os.write(right, 2);
+            std::map<string, string> _mStatus;
+            tars_invoke_async(tars::TARSNORMAL,"multiply", _os, context, _mStatus, callback);
+
+            return promise.getFuture();
+        }
+
+        void coro_multiply(CalculatorCoroPrxCallbackPtr callback,tars::Int32 left,tars::Int32 right,const map<string, string>& context = TARS_CONTEXT())
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(left, 1);
+            _os.write(right, 2);
+            std::map<string, string> _mStatus;
+            tars_invoke_async(tars::TARSNORMAL,"multiply", _os, context, _mStatus, callback, true);
+        }
+
+        tars::Int32 subtract(tars::Int32 left,tars::Int32 right,const map<string, string> &context = TARS_CONTEXT(),map<string, string> * pResponseContext = NULL)
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(left, 1);
+            _os.write(right, 2);
+            ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                _pSptd_->newSpan();
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CS, _os.getLength());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value["left"] = tars::JsonOutput::writeJson(left);
+                    _p_->value["right"] = tars::JsonOutput::writeJson(right);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CS), TRACE_ANNOTATION_CS, tars_moduleName(), tars_name(), "subtract", 0, _trace_param_, "");
+            }
+
+            std::map<string, string> _mStatus;
+            shared_ptr<tars::ResponsePacket> rep = tars_invoke(tars::TARSNORMAL,"subtract", _os, context, _mStatus);
+            if(pResponseContext)
+            {
+                pResponseContext->swap(rep->context);
+            }
+
+            tars::TarsInputStream<tars::BufferReader> _is;
+            _is.setBuffer(rep->sBuffer);
+            tars::Int32 _ret;
+            _is.read(_ret, 0, true);
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CR, _is.size());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CR), TRACE_ANNOTATION_CR, tars_moduleName(), tars_name(), "subtract", 0, _trace_param_, "");
+            }
+
+            return _ret;
+        }
+
+        void async_subtract(CalculatorPrxCallbackPtr callback,tars::Int32 left,tars::Int32 right,const map<string, string>& context = TARS_CONTEXT())
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(left, 1);
+            _os.write(right, 2);
+            std::map<string, string> _mStatus;
+            ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+            if (_pSptd_ && _pSptd_->_traceCall)
+            {
+                _pSptd_->newSpan();
+                string _trace_param_;
+                int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_CS, _os.getLength());
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value["left"] = tars::JsonOutput::writeJson(left);
+                    _p_->value["right"] = tars::JsonOutput::writeJson(right);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_CS), TRACE_ANNOTATION_CS, tars_moduleName(), tars_name(), "subtract", 0, _trace_param_, "");
+            }
+            tars_invoke_async(tars::TARSNORMAL,"subtract", _os, context, _mStatus, callback);
+        }
+        
+        tars::Future< CalculatorPrxCallbackPromise::PromisesubtractPtr > promise_async_subtract(tars::Int32 left,tars::Int32 right,const map<string, string>& context)
+        {
+            tars::Promise< CalculatorPrxCallbackPromise::PromisesubtractPtr > promise;
+            CalculatorPrxCallbackPromisePtr callback (new CalculatorPrxCallbackPromise(promise));
+
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(left, 1);
+            _os.write(right, 2);
+            std::map<string, string> _mStatus;
+            tars_invoke_async(tars::TARSNORMAL,"subtract", _os, context, _mStatus, callback);
+
+            return promise.getFuture();
+        }
+
+        void coro_subtract(CalculatorCoroPrxCallbackPtr callback,tars::Int32 left,tars::Int32 right,const map<string, string>& context = TARS_CONTEXT())
+        {
+            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+            _os.write(left, 1);
+            _os.write(right, 2);
+            std::map<string, string> _mStatus;
+            tars_invoke_async(tars::TARSNORMAL,"subtract", _os, context, _mStatus, callback, true);
+        }
+
         CalculatorProxy* tars_hash(size_t key)
         {
             return (CalculatorProxy*)ServantProxy::tars_hash(key);
@@ -471,15 +2363,411 @@ namespace MathApp
             }
         }
 
+        virtual vector<tars::Int32> batchAdd(const vector<tars::Int32> & values,tars::Int32 increment,tars::TarsCurrentPtr _current_) = 0;
+        virtual vector<tars::Int32> batchAdd(vector<tars::Int32> && values,tars::Int32 increment,tars::TarsCurrentPtr _current_) 
+        { return batchAdd(values, increment, _current_); }
+        static void async_response_batchAdd(tars::TarsCurrentPtr _current_, const vector<tars::Int32> &_ret)
+        {
+            size_t _rsp_len_ = 0;
+            if (_current_->getRequestVersion() == TUPVERSION )
+            {
+                UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                _tarsAttr_.setVersion(_current_->getRequestVersion());
+                _tarsAttr_.put("", _ret);
+                _tarsAttr_.put("tars_ret", _ret);
+
+                vector<char> sTupResponseBuffer;
+                _tarsAttr_.encode(sTupResponseBuffer);
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, _tarsAttr_);
+                _rsp_len_ = sTupResponseBuffer.size();
+            }
+            else if (_current_->getRequestVersion() == JSONVERSION)
+            {
+                tars::JsonValueObjPtr _p = new tars::JsonValueObj();
+                _p->value["tars_ret"] = tars::JsonOutput::writeJson(_ret);
+                vector<char> sJsonResponseBuffer;
+                tars::TC_Json::writeValue(_p, sJsonResponseBuffer);
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, sJsonResponseBuffer);
+                _rsp_len_ = sJsonResponseBuffer.size();
+            }
+            else
+            {
+                tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                _os.write(_ret, 0);
+
+                _rsp_len_ = _os.getLength();
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, _os);
+            }
+            if (_current_->isTraced())
+            {
+                string _trace_param_;
+                int _trace_param_flag_ = ServantProxyThreadData::needTraceParam(ServantProxyThreadData::TraceContext::EST_SS, _current_->getTraceKey(), _rsp_len_);
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                if(_current_->getServantHandle())
+                {
+                    TARS_TRACE(_current_->getTraceKey(), TRACE_ANNOTATION_SS, "", _current_->getModuleName(), "batchAdd", 0, _trace_param_, "");
+                }
+            }
+
+        }
+        static void async_response_push_batchAdd(tars::CurrentPtr _current_, const vector<tars::Int32> &_ret, const map<string, string> &_context = tars::Current::TARS_STATUS())
+        {
+            {
+                tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                _os.write(_ret, 0);
+
+                _current_->sendPushResponse( tars::TARSSERVERSUCCESS ,"batchAdd", _os, _context);
+            }
+        }
+
+        virtual MathApp::CalculatorResult calculate(const MathApp::CalculatorRequest & request,tars::TarsCurrentPtr _current_) = 0;
+        virtual MathApp::CalculatorResult calculate(MathApp::CalculatorRequest && request,tars::TarsCurrentPtr _current_) 
+        { return calculate(request, _current_); }
+        static void async_response_calculate(tars::TarsCurrentPtr _current_, const MathApp::CalculatorResult &_ret)
+        {
+            size_t _rsp_len_ = 0;
+            if (_current_->getRequestVersion() == TUPVERSION )
+            {
+                UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                _tarsAttr_.setVersion(_current_->getRequestVersion());
+                _tarsAttr_.put("", _ret);
+                _tarsAttr_.put("tars_ret", _ret);
+
+                vector<char> sTupResponseBuffer;
+                _tarsAttr_.encode(sTupResponseBuffer);
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, _tarsAttr_);
+                _rsp_len_ = sTupResponseBuffer.size();
+            }
+            else if (_current_->getRequestVersion() == JSONVERSION)
+            {
+                tars::JsonValueObjPtr _p = new tars::JsonValueObj();
+                _p->value["tars_ret"] = tars::JsonOutput::writeJson(_ret);
+                vector<char> sJsonResponseBuffer;
+                tars::TC_Json::writeValue(_p, sJsonResponseBuffer);
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, sJsonResponseBuffer);
+                _rsp_len_ = sJsonResponseBuffer.size();
+            }
+            else
+            {
+                tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                _os.write(_ret, 0);
+
+                _rsp_len_ = _os.getLength();
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, _os);
+            }
+            if (_current_->isTraced())
+            {
+                string _trace_param_;
+                int _trace_param_flag_ = ServantProxyThreadData::needTraceParam(ServantProxyThreadData::TraceContext::EST_SS, _current_->getTraceKey(), _rsp_len_);
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                if(_current_->getServantHandle())
+                {
+                    TARS_TRACE(_current_->getTraceKey(), TRACE_ANNOTATION_SS, "", _current_->getModuleName(), "calculate", 0, _trace_param_, "");
+                }
+            }
+
+        }
+        static void async_response_push_calculate(tars::CurrentPtr _current_, const MathApp::CalculatorResult &_ret, const map<string, string> &_context = tars::Current::TARS_STATUS())
+        {
+            {
+                tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                _os.write(_ret, 0);
+
+                _current_->sendPushResponse( tars::TARSSERVERSUCCESS ,"calculate", _os, _context);
+            }
+        }
+
+        virtual map<std::string, tars::Int32> countByName(const vector<std::string> & names,tars::TarsCurrentPtr _current_) = 0;
+        virtual map<std::string, tars::Int32> countByName(vector<std::string> && names,tars::TarsCurrentPtr _current_) 
+        { return countByName(names, _current_); }
+        static void async_response_countByName(tars::TarsCurrentPtr _current_, const map<std::string, tars::Int32> &_ret)
+        {
+            size_t _rsp_len_ = 0;
+            if (_current_->getRequestVersion() == TUPVERSION )
+            {
+                UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                _tarsAttr_.setVersion(_current_->getRequestVersion());
+                _tarsAttr_.put("", _ret);
+                _tarsAttr_.put("tars_ret", _ret);
+
+                vector<char> sTupResponseBuffer;
+                _tarsAttr_.encode(sTupResponseBuffer);
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, _tarsAttr_);
+                _rsp_len_ = sTupResponseBuffer.size();
+            }
+            else if (_current_->getRequestVersion() == JSONVERSION)
+            {
+                tars::JsonValueObjPtr _p = new tars::JsonValueObj();
+                _p->value["tars_ret"] = tars::JsonOutput::writeJson(_ret);
+                vector<char> sJsonResponseBuffer;
+                tars::TC_Json::writeValue(_p, sJsonResponseBuffer);
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, sJsonResponseBuffer);
+                _rsp_len_ = sJsonResponseBuffer.size();
+            }
+            else
+            {
+                tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                _os.write(_ret, 0);
+
+                _rsp_len_ = _os.getLength();
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, _os);
+            }
+            if (_current_->isTraced())
+            {
+                string _trace_param_;
+                int _trace_param_flag_ = ServantProxyThreadData::needTraceParam(ServantProxyThreadData::TraceContext::EST_SS, _current_->getTraceKey(), _rsp_len_);
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                if(_current_->getServantHandle())
+                {
+                    TARS_TRACE(_current_->getTraceKey(), TRACE_ANNOTATION_SS, "", _current_->getModuleName(), "countByName", 0, _trace_param_, "");
+                }
+            }
+
+        }
+        static void async_response_push_countByName(tars::CurrentPtr _current_, const map<std::string, tars::Int32> &_ret, const map<string, string> &_context = tars::Current::TARS_STATUS())
+        {
+            {
+                tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                _os.write(_ret, 0);
+
+                _current_->sendPushResponse( tars::TARSSERVERSUCCESS ,"countByName", _os, _context);
+            }
+        }
+
+        virtual tars::Int32 divide(tars::Int32 left,tars::Int32 right,tars::TarsCurrentPtr _current_) = 0;
+        static void async_response_divide(tars::TarsCurrentPtr _current_, tars::Int32 _ret)
+        {
+            size_t _rsp_len_ = 0;
+            if (_current_->getRequestVersion() == TUPVERSION )
+            {
+                UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                _tarsAttr_.setVersion(_current_->getRequestVersion());
+                _tarsAttr_.put("", _ret);
+                _tarsAttr_.put("tars_ret", _ret);
+
+                vector<char> sTupResponseBuffer;
+                _tarsAttr_.encode(sTupResponseBuffer);
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, _tarsAttr_);
+                _rsp_len_ = sTupResponseBuffer.size();
+            }
+            else if (_current_->getRequestVersion() == JSONVERSION)
+            {
+                tars::JsonValueObjPtr _p = new tars::JsonValueObj();
+                _p->value["tars_ret"] = tars::JsonOutput::writeJson(_ret);
+                vector<char> sJsonResponseBuffer;
+                tars::TC_Json::writeValue(_p, sJsonResponseBuffer);
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, sJsonResponseBuffer);
+                _rsp_len_ = sJsonResponseBuffer.size();
+            }
+            else
+            {
+                tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                _os.write(_ret, 0);
+
+                _rsp_len_ = _os.getLength();
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, _os);
+            }
+            if (_current_->isTraced())
+            {
+                string _trace_param_;
+                int _trace_param_flag_ = ServantProxyThreadData::needTraceParam(ServantProxyThreadData::TraceContext::EST_SS, _current_->getTraceKey(), _rsp_len_);
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                if(_current_->getServantHandle())
+                {
+                    TARS_TRACE(_current_->getTraceKey(), TRACE_ANNOTATION_SS, "", _current_->getModuleName(), "divide", 0, _trace_param_, "");
+                }
+            }
+
+        }
+        static void async_response_push_divide(tars::CurrentPtr _current_, tars::Int32 _ret, const map<string, string> &_context = tars::Current::TARS_STATUS())
+        {
+            {
+                tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                _os.write(_ret, 0);
+
+                _current_->sendPushResponse( tars::TARSSERVERSUCCESS ,"divide", _os, _context);
+            }
+        }
+
+        virtual tars::Int32 multiply(tars::Int32 left,tars::Int32 right,tars::TarsCurrentPtr _current_) = 0;
+        static void async_response_multiply(tars::TarsCurrentPtr _current_, tars::Int32 _ret)
+        {
+            size_t _rsp_len_ = 0;
+            if (_current_->getRequestVersion() == TUPVERSION )
+            {
+                UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                _tarsAttr_.setVersion(_current_->getRequestVersion());
+                _tarsAttr_.put("", _ret);
+                _tarsAttr_.put("tars_ret", _ret);
+
+                vector<char> sTupResponseBuffer;
+                _tarsAttr_.encode(sTupResponseBuffer);
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, _tarsAttr_);
+                _rsp_len_ = sTupResponseBuffer.size();
+            }
+            else if (_current_->getRequestVersion() == JSONVERSION)
+            {
+                tars::JsonValueObjPtr _p = new tars::JsonValueObj();
+                _p->value["tars_ret"] = tars::JsonOutput::writeJson(_ret);
+                vector<char> sJsonResponseBuffer;
+                tars::TC_Json::writeValue(_p, sJsonResponseBuffer);
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, sJsonResponseBuffer);
+                _rsp_len_ = sJsonResponseBuffer.size();
+            }
+            else
+            {
+                tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                _os.write(_ret, 0);
+
+                _rsp_len_ = _os.getLength();
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, _os);
+            }
+            if (_current_->isTraced())
+            {
+                string _trace_param_;
+                int _trace_param_flag_ = ServantProxyThreadData::needTraceParam(ServantProxyThreadData::TraceContext::EST_SS, _current_->getTraceKey(), _rsp_len_);
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                if(_current_->getServantHandle())
+                {
+                    TARS_TRACE(_current_->getTraceKey(), TRACE_ANNOTATION_SS, "", _current_->getModuleName(), "multiply", 0, _trace_param_, "");
+                }
+            }
+
+        }
+        static void async_response_push_multiply(tars::CurrentPtr _current_, tars::Int32 _ret, const map<string, string> &_context = tars::Current::TARS_STATUS())
+        {
+            {
+                tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                _os.write(_ret, 0);
+
+                _current_->sendPushResponse( tars::TARSSERVERSUCCESS ,"multiply", _os, _context);
+            }
+        }
+
+        virtual tars::Int32 subtract(tars::Int32 left,tars::Int32 right,tars::TarsCurrentPtr _current_) = 0;
+        static void async_response_subtract(tars::TarsCurrentPtr _current_, tars::Int32 _ret)
+        {
+            size_t _rsp_len_ = 0;
+            if (_current_->getRequestVersion() == TUPVERSION )
+            {
+                UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                _tarsAttr_.setVersion(_current_->getRequestVersion());
+                _tarsAttr_.put("", _ret);
+                _tarsAttr_.put("tars_ret", _ret);
+
+                vector<char> sTupResponseBuffer;
+                _tarsAttr_.encode(sTupResponseBuffer);
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, _tarsAttr_);
+                _rsp_len_ = sTupResponseBuffer.size();
+            }
+            else if (_current_->getRequestVersion() == JSONVERSION)
+            {
+                tars::JsonValueObjPtr _p = new tars::JsonValueObj();
+                _p->value["tars_ret"] = tars::JsonOutput::writeJson(_ret);
+                vector<char> sJsonResponseBuffer;
+                tars::TC_Json::writeValue(_p, sJsonResponseBuffer);
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, sJsonResponseBuffer);
+                _rsp_len_ = sJsonResponseBuffer.size();
+            }
+            else
+            {
+                tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                _os.write(_ret, 0);
+
+                _rsp_len_ = _os.getLength();
+                _current_->sendResponse(tars::TARSSERVERSUCCESS, _os);
+            }
+            if (_current_->isTraced())
+            {
+                string _trace_param_;
+                int _trace_param_flag_ = ServantProxyThreadData::needTraceParam(ServantProxyThreadData::TraceContext::EST_SS, _current_->getTraceKey(), _rsp_len_);
+                if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                {
+                    tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                    _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                    _trace_param_ = tars::TC_Json::writeValue(_p_);
+                }
+                else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                {
+                    _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                }
+                if(_current_->getServantHandle())
+                {
+                    TARS_TRACE(_current_->getTraceKey(), TRACE_ANNOTATION_SS, "", _current_->getModuleName(), "subtract", 0, _trace_param_, "");
+                }
+            }
+
+        }
+        static void async_response_push_subtract(tars::CurrentPtr _current_, tars::Int32 _ret, const map<string, string> &_context = tars::Current::TARS_STATUS())
+        {
+            {
+                tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                _os.write(_ret, 0);
+
+                _current_->sendPushResponse( tars::TARSSERVERSUCCESS ,"subtract", _os, _context);
+            }
+        }
+
     public:
         int onDispatch(tars::TarsCurrentPtr _current, vector<char> &_sResponseBuffer)
         {
             static ::std::string __MathApp__Calculator_all[]=
             {
-                "add"
+                "add",
+                "batchAdd",
+                "calculate",
+                "countByName",
+                "divide",
+                "multiply",
+                "subtract"
             };
 
-            pair<string*, string*> r = equal_range(__MathApp__Calculator_all, __MathApp__Calculator_all+1, _current->getFuncName());
+            pair<string*, string*> r = equal_range(__MathApp__Calculator_all, __MathApp__Calculator_all+7, _current->getFuncName());
             if(r.first == r.second) return tars::TARSSERVERNOFUNCERR;
             switch(r.first - __MathApp__Calculator_all)
             {
@@ -565,6 +2853,554 @@ namespace MathApp
                                 _trace_param_ = "{\"trace_param_over_max_len\":true}";
                             }
                             TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SS), TRACE_ANNOTATION_SS, "", getModuleName(), "add", 0, _trace_param_, "");
+                        }
+
+                    }
+                    else if(_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        _current->setTrace(_pSptd_->_traceCall, _pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SS));
+                    }
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 1:
+                {
+                    tars::TarsInputStream<tars::BufferReader> _is;
+                    _is.setBuffer(_current->getRequestBuffer());
+                    vector<tars::Int32> values;
+                    tars::Int32 increment;
+                    if (_current->getRequestVersion() == TUPVERSION)
+                    {
+                        UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                        _tarsAttr_.setVersion(_current->getRequestVersion());
+                        _tarsAttr_.decode(_current->getRequestBuffer());
+                        _tarsAttr_.get("values", values);
+                        _tarsAttr_.get("increment", increment);
+                    }
+                    else if (_current->getRequestVersion() == JSONVERSION)
+                    {
+                        tars::JsonValueObjPtr _jsonPtr = tars::JsonValueObjPtr::dynamicCast(tars::TC_Json::getValue(_current->getRequestBuffer()));
+                        tars::JsonInput::readJson(values, _jsonPtr->value["values"], true);
+                        tars::JsonInput::readJson(increment, _jsonPtr->value["increment"], true);
+                    }
+                    else
+                    {
+                        _is.read(values, 1, true);
+                        _is.read(increment, 2, true);
+                    }
+                    ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+                    if (_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        string _trace_param_;
+                        int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_SR, _is.size());
+                        if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                        {
+                            tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                            _p_->value["values"] = tars::JsonOutput::writeJson(values);
+                            _p_->value["increment"] = tars::JsonOutput::writeJson(increment);
+                            _trace_param_ = tars::TC_Json::writeValue(_p_);
+                        }
+                        else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                        {
+                            _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                        }
+                        TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SR), TRACE_ANNOTATION_SR, "", getModuleName(), "batchAdd", 0, _trace_param_, "");
+                    }
+
+                    vector<tars::Int32> _ret = batchAdd(std::move(values),increment, _current);
+                    if(_current->isResponse())
+                    {
+                        if (_current->getRequestVersion() == TUPVERSION)
+                        {
+                            UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                            _tarsAttr_.setVersion(_current->getRequestVersion());
+                            _tarsAttr_.put("", _ret);
+                            _tarsAttr_.put("tars_ret", _ret);
+                            _tarsAttr_.encode(_sResponseBuffer);
+                        }
+                        else if (_current->getRequestVersion() == JSONVERSION)
+                        {
+                            tars::JsonValueObjPtr _p = new tars::JsonValueObj();
+                            _p->value["tars_ret"] = tars::JsonOutput::writeJson(_ret);
+                            tars::TC_Json::writeValue(_p, _sResponseBuffer);
+                        }
+                        else
+                        {
+                            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                            _os.write(_ret, 0);
+                            _os.swap(_sResponseBuffer);
+                        }
+                        if (_pSptd_ && _pSptd_->_traceCall)
+                        {
+                            string _trace_param_;
+                            int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_SS, _sResponseBuffer.size());
+                            if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                            {
+                                tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                                _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                                _trace_param_ = tars::TC_Json::writeValue(_p_);
+                            }
+                            else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                            {
+                                _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                            }
+                            TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SS), TRACE_ANNOTATION_SS, "", getModuleName(), "batchAdd", 0, _trace_param_, "");
+                        }
+
+                    }
+                    else if(_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        _current->setTrace(_pSptd_->_traceCall, _pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SS));
+                    }
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 2:
+                {
+                    tars::TarsInputStream<tars::BufferReader> _is;
+                    _is.setBuffer(_current->getRequestBuffer());
+                    MathApp::CalculatorRequest request;
+                    if (_current->getRequestVersion() == TUPVERSION)
+                    {
+                        UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                        _tarsAttr_.setVersion(_current->getRequestVersion());
+                        _tarsAttr_.decode(_current->getRequestBuffer());
+                        _tarsAttr_.get("request", request);
+                    }
+                    else if (_current->getRequestVersion() == JSONVERSION)
+                    {
+                        tars::JsonValueObjPtr _jsonPtr = tars::JsonValueObjPtr::dynamicCast(tars::TC_Json::getValue(_current->getRequestBuffer()));
+                        tars::JsonInput::readJson(request, _jsonPtr->value["request"], true);
+                    }
+                    else
+                    {
+                        _is.read(request, 1, true);
+                    }
+                    ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+                    if (_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        string _trace_param_;
+                        int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_SR, _is.size());
+                        if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                        {
+                            tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                            _p_->value["request"] = tars::JsonOutput::writeJson(request);
+                            _trace_param_ = tars::TC_Json::writeValue(_p_);
+                        }
+                        else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                        {
+                            _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                        }
+                        TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SR), TRACE_ANNOTATION_SR, "", getModuleName(), "calculate", 0, _trace_param_, "");
+                    }
+
+                    MathApp::CalculatorResult _ret = calculate(std::move(request), _current);
+                    if(_current->isResponse())
+                    {
+                        if (_current->getRequestVersion() == TUPVERSION)
+                        {
+                            UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                            _tarsAttr_.setVersion(_current->getRequestVersion());
+                            _tarsAttr_.put("", _ret);
+                            _tarsAttr_.put("tars_ret", _ret);
+                            _tarsAttr_.encode(_sResponseBuffer);
+                        }
+                        else if (_current->getRequestVersion() == JSONVERSION)
+                        {
+                            tars::JsonValueObjPtr _p = new tars::JsonValueObj();
+                            _p->value["tars_ret"] = tars::JsonOutput::writeJson(_ret);
+                            tars::TC_Json::writeValue(_p, _sResponseBuffer);
+                        }
+                        else
+                        {
+                            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                            _os.write(_ret, 0);
+                            _os.swap(_sResponseBuffer);
+                        }
+                        if (_pSptd_ && _pSptd_->_traceCall)
+                        {
+                            string _trace_param_;
+                            int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_SS, _sResponseBuffer.size());
+                            if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                            {
+                                tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                                _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                                _trace_param_ = tars::TC_Json::writeValue(_p_);
+                            }
+                            else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                            {
+                                _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                            }
+                            TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SS), TRACE_ANNOTATION_SS, "", getModuleName(), "calculate", 0, _trace_param_, "");
+                        }
+
+                    }
+                    else if(_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        _current->setTrace(_pSptd_->_traceCall, _pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SS));
+                    }
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 3:
+                {
+                    tars::TarsInputStream<tars::BufferReader> _is;
+                    _is.setBuffer(_current->getRequestBuffer());
+                    vector<std::string> names;
+                    if (_current->getRequestVersion() == TUPVERSION)
+                    {
+                        UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                        _tarsAttr_.setVersion(_current->getRequestVersion());
+                        _tarsAttr_.decode(_current->getRequestBuffer());
+                        _tarsAttr_.get("names", names);
+                    }
+                    else if (_current->getRequestVersion() == JSONVERSION)
+                    {
+                        tars::JsonValueObjPtr _jsonPtr = tars::JsonValueObjPtr::dynamicCast(tars::TC_Json::getValue(_current->getRequestBuffer()));
+                        tars::JsonInput::readJson(names, _jsonPtr->value["names"], true);
+                    }
+                    else
+                    {
+                        _is.read(names, 1, true);
+                    }
+                    ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+                    if (_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        string _trace_param_;
+                        int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_SR, _is.size());
+                        if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                        {
+                            tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                            _p_->value["names"] = tars::JsonOutput::writeJson(names);
+                            _trace_param_ = tars::TC_Json::writeValue(_p_);
+                        }
+                        else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                        {
+                            _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                        }
+                        TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SR), TRACE_ANNOTATION_SR, "", getModuleName(), "countByName", 0, _trace_param_, "");
+                    }
+
+                    map<std::string, tars::Int32> _ret = countByName(std::move(names), _current);
+                    if(_current->isResponse())
+                    {
+                        if (_current->getRequestVersion() == TUPVERSION)
+                        {
+                            UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                            _tarsAttr_.setVersion(_current->getRequestVersion());
+                            _tarsAttr_.put("", _ret);
+                            _tarsAttr_.put("tars_ret", _ret);
+                            _tarsAttr_.encode(_sResponseBuffer);
+                        }
+                        else if (_current->getRequestVersion() == JSONVERSION)
+                        {
+                            tars::JsonValueObjPtr _p = new tars::JsonValueObj();
+                            _p->value["tars_ret"] = tars::JsonOutput::writeJson(_ret);
+                            tars::TC_Json::writeValue(_p, _sResponseBuffer);
+                        }
+                        else
+                        {
+                            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                            _os.write(_ret, 0);
+                            _os.swap(_sResponseBuffer);
+                        }
+                        if (_pSptd_ && _pSptd_->_traceCall)
+                        {
+                            string _trace_param_;
+                            int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_SS, _sResponseBuffer.size());
+                            if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                            {
+                                tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                                _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                                _trace_param_ = tars::TC_Json::writeValue(_p_);
+                            }
+                            else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                            {
+                                _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                            }
+                            TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SS), TRACE_ANNOTATION_SS, "", getModuleName(), "countByName", 0, _trace_param_, "");
+                        }
+
+                    }
+                    else if(_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        _current->setTrace(_pSptd_->_traceCall, _pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SS));
+                    }
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 4:
+                {
+                    tars::TarsInputStream<tars::BufferReader> _is;
+                    _is.setBuffer(_current->getRequestBuffer());
+                    tars::Int32 left;
+                    tars::Int32 right;
+                    if (_current->getRequestVersion() == TUPVERSION)
+                    {
+                        UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                        _tarsAttr_.setVersion(_current->getRequestVersion());
+                        _tarsAttr_.decode(_current->getRequestBuffer());
+                        _tarsAttr_.get("left", left);
+                        _tarsAttr_.get("right", right);
+                    }
+                    else if (_current->getRequestVersion() == JSONVERSION)
+                    {
+                        tars::JsonValueObjPtr _jsonPtr = tars::JsonValueObjPtr::dynamicCast(tars::TC_Json::getValue(_current->getRequestBuffer()));
+                        tars::JsonInput::readJson(left, _jsonPtr->value["left"], true);
+                        tars::JsonInput::readJson(right, _jsonPtr->value["right"], true);
+                    }
+                    else
+                    {
+                        _is.read(left, 1, true);
+                        _is.read(right, 2, true);
+                    }
+                    ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+                    if (_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        string _trace_param_;
+                        int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_SR, _is.size());
+                        if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                        {
+                            tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                            _p_->value["left"] = tars::JsonOutput::writeJson(left);
+                            _p_->value["right"] = tars::JsonOutput::writeJson(right);
+                            _trace_param_ = tars::TC_Json::writeValue(_p_);
+                        }
+                        else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                        {
+                            _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                        }
+                        TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SR), TRACE_ANNOTATION_SR, "", getModuleName(), "divide", 0, _trace_param_, "");
+                    }
+
+                    tars::Int32 _ret = divide(left,right, _current);
+                    if(_current->isResponse())
+                    {
+                        if (_current->getRequestVersion() == TUPVERSION)
+                        {
+                            UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                            _tarsAttr_.setVersion(_current->getRequestVersion());
+                            _tarsAttr_.put("", _ret);
+                            _tarsAttr_.put("tars_ret", _ret);
+                            _tarsAttr_.encode(_sResponseBuffer);
+                        }
+                        else if (_current->getRequestVersion() == JSONVERSION)
+                        {
+                            tars::JsonValueObjPtr _p = new tars::JsonValueObj();
+                            _p->value["tars_ret"] = tars::JsonOutput::writeJson(_ret);
+                            tars::TC_Json::writeValue(_p, _sResponseBuffer);
+                        }
+                        else
+                        {
+                            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                            _os.write(_ret, 0);
+                            _os.swap(_sResponseBuffer);
+                        }
+                        if (_pSptd_ && _pSptd_->_traceCall)
+                        {
+                            string _trace_param_;
+                            int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_SS, _sResponseBuffer.size());
+                            if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                            {
+                                tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                                _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                                _trace_param_ = tars::TC_Json::writeValue(_p_);
+                            }
+                            else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                            {
+                                _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                            }
+                            TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SS), TRACE_ANNOTATION_SS, "", getModuleName(), "divide", 0, _trace_param_, "");
+                        }
+
+                    }
+                    else if(_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        _current->setTrace(_pSptd_->_traceCall, _pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SS));
+                    }
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 5:
+                {
+                    tars::TarsInputStream<tars::BufferReader> _is;
+                    _is.setBuffer(_current->getRequestBuffer());
+                    tars::Int32 left;
+                    tars::Int32 right;
+                    if (_current->getRequestVersion() == TUPVERSION)
+                    {
+                        UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                        _tarsAttr_.setVersion(_current->getRequestVersion());
+                        _tarsAttr_.decode(_current->getRequestBuffer());
+                        _tarsAttr_.get("left", left);
+                        _tarsAttr_.get("right", right);
+                    }
+                    else if (_current->getRequestVersion() == JSONVERSION)
+                    {
+                        tars::JsonValueObjPtr _jsonPtr = tars::JsonValueObjPtr::dynamicCast(tars::TC_Json::getValue(_current->getRequestBuffer()));
+                        tars::JsonInput::readJson(left, _jsonPtr->value["left"], true);
+                        tars::JsonInput::readJson(right, _jsonPtr->value["right"], true);
+                    }
+                    else
+                    {
+                        _is.read(left, 1, true);
+                        _is.read(right, 2, true);
+                    }
+                    ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+                    if (_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        string _trace_param_;
+                        int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_SR, _is.size());
+                        if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                        {
+                            tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                            _p_->value["left"] = tars::JsonOutput::writeJson(left);
+                            _p_->value["right"] = tars::JsonOutput::writeJson(right);
+                            _trace_param_ = tars::TC_Json::writeValue(_p_);
+                        }
+                        else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                        {
+                            _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                        }
+                        TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SR), TRACE_ANNOTATION_SR, "", getModuleName(), "multiply", 0, _trace_param_, "");
+                    }
+
+                    tars::Int32 _ret = multiply(left,right, _current);
+                    if(_current->isResponse())
+                    {
+                        if (_current->getRequestVersion() == TUPVERSION)
+                        {
+                            UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                            _tarsAttr_.setVersion(_current->getRequestVersion());
+                            _tarsAttr_.put("", _ret);
+                            _tarsAttr_.put("tars_ret", _ret);
+                            _tarsAttr_.encode(_sResponseBuffer);
+                        }
+                        else if (_current->getRequestVersion() == JSONVERSION)
+                        {
+                            tars::JsonValueObjPtr _p = new tars::JsonValueObj();
+                            _p->value["tars_ret"] = tars::JsonOutput::writeJson(_ret);
+                            tars::TC_Json::writeValue(_p, _sResponseBuffer);
+                        }
+                        else
+                        {
+                            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                            _os.write(_ret, 0);
+                            _os.swap(_sResponseBuffer);
+                        }
+                        if (_pSptd_ && _pSptd_->_traceCall)
+                        {
+                            string _trace_param_;
+                            int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_SS, _sResponseBuffer.size());
+                            if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                            {
+                                tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                                _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                                _trace_param_ = tars::TC_Json::writeValue(_p_);
+                            }
+                            else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                            {
+                                _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                            }
+                            TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SS), TRACE_ANNOTATION_SS, "", getModuleName(), "multiply", 0, _trace_param_, "");
+                        }
+
+                    }
+                    else if(_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        _current->setTrace(_pSptd_->_traceCall, _pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SS));
+                    }
+
+                    return tars::TARSSERVERSUCCESS;
+
+                }
+                case 6:
+                {
+                    tars::TarsInputStream<tars::BufferReader> _is;
+                    _is.setBuffer(_current->getRequestBuffer());
+                    tars::Int32 left;
+                    tars::Int32 right;
+                    if (_current->getRequestVersion() == TUPVERSION)
+                    {
+                        UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                        _tarsAttr_.setVersion(_current->getRequestVersion());
+                        _tarsAttr_.decode(_current->getRequestBuffer());
+                        _tarsAttr_.get("left", left);
+                        _tarsAttr_.get("right", right);
+                    }
+                    else if (_current->getRequestVersion() == JSONVERSION)
+                    {
+                        tars::JsonValueObjPtr _jsonPtr = tars::JsonValueObjPtr::dynamicCast(tars::TC_Json::getValue(_current->getRequestBuffer()));
+                        tars::JsonInput::readJson(left, _jsonPtr->value["left"], true);
+                        tars::JsonInput::readJson(right, _jsonPtr->value["right"], true);
+                    }
+                    else
+                    {
+                        _is.read(left, 1, true);
+                        _is.read(right, 2, true);
+                    }
+                    ServantProxyThreadData *_pSptd_ = ServantProxyThreadData::getData();
+                    if (_pSptd_ && _pSptd_->_traceCall)
+                    {
+                        string _trace_param_;
+                        int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_SR, _is.size());
+                        if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                        {
+                            tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                            _p_->value["left"] = tars::JsonOutput::writeJson(left);
+                            _p_->value["right"] = tars::JsonOutput::writeJson(right);
+                            _trace_param_ = tars::TC_Json::writeValue(_p_);
+                        }
+                        else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                        {
+                            _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                        }
+                        TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SR), TRACE_ANNOTATION_SR, "", getModuleName(), "subtract", 0, _trace_param_, "");
+                    }
+
+                    tars::Int32 _ret = subtract(left,right, _current);
+                    if(_current->isResponse())
+                    {
+                        if (_current->getRequestVersion() == TUPVERSION)
+                        {
+                            UniAttribute<tars::BufferWriterVector, tars::BufferReader>  _tarsAttr_;
+                            _tarsAttr_.setVersion(_current->getRequestVersion());
+                            _tarsAttr_.put("", _ret);
+                            _tarsAttr_.put("tars_ret", _ret);
+                            _tarsAttr_.encode(_sResponseBuffer);
+                        }
+                        else if (_current->getRequestVersion() == JSONVERSION)
+                        {
+                            tars::JsonValueObjPtr _p = new tars::JsonValueObj();
+                            _p->value["tars_ret"] = tars::JsonOutput::writeJson(_ret);
+                            tars::TC_Json::writeValue(_p, _sResponseBuffer);
+                        }
+                        else
+                        {
+                            tars::TarsOutputStream<tars::BufferWriterVector> _os;
+                            _os.write(_ret, 0);
+                            _os.swap(_sResponseBuffer);
+                        }
+                        if (_pSptd_ && _pSptd_->_traceCall)
+                        {
+                            string _trace_param_;
+                            int _trace_param_flag_ = _pSptd_->needTraceParam(ServantProxyThreadData::TraceContext::EST_SS, _sResponseBuffer.size());
+                            if (ServantProxyThreadData::TraceContext::ENP_NORMAL == _trace_param_flag_)
+                            {
+                                tars::JsonValueObjPtr _p_ = new tars::JsonValueObj();
+                                _p_->value[""] = tars::JsonOutput::writeJson(_ret);
+                                _trace_param_ = tars::TC_Json::writeValue(_p_);
+                            }
+                            else if(ServantProxyThreadData::TraceContext::ENP_OVERMAXLEN == _trace_param_flag_)
+                            {
+                                _trace_param_ = "{\"trace_param_over_max_len\":true}";
+                            }
+                            TARS_TRACE(_pSptd_->getTraceKey(ServantProxyThreadData::TraceContext::EST_SS), TRACE_ANNOTATION_SS, "", getModuleName(), "subtract", 0, _trace_param_, "");
                         }
 
                     }

@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/calculator_client.dir/client_main.cpp.o  -o calculator_client  ../../TarsCpp/build-study/lib/libtarsservant.a ../../TarsCpp/build-study/lib/libtarsutil.a ../../TarsCpp/build-study/lib/libtarsparse.a /usr/lib/x86_64-linux-gnu/libz.so -ldl -lpthread 

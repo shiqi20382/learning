@@ -1,0 +1,4 @@
+/mnt/ssd/learning/tarscpp-study/tars-calculator-practice/build-debug/CMakeFiles/edit_cache.dir
+/mnt/ssd/learning/tarscpp-study/tars-calculator-practice/build-debug/CMakeFiles/calculator_client.dir
+/mnt/ssd/learning/tarscpp-study/tars-calculator-practice/build-debug/CMakeFiles/rebuild_cache.dir
+/mnt/ssd/learning/tarscpp-study/tars-calculator-practice/build-debug/CMakeFiles/calculator_server.dir
