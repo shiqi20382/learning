@@ -13,7 +13,7 @@ int main()
        MathApp::CalculatorPrx proxy;
        const std::string objectAddress = 
             "MathApp.CalculatorServer.CalculatorObj"
-            "@tcp -h 127.0.0.1 -p 20002";
+            "@tcp -h 192.168.16.203 -p 11297";
 
             Communicator.stringToProxy(
                 objectAddress,

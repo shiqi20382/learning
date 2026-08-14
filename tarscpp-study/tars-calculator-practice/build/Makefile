@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named CalculatorServer-tar
+
+# Build rule for target.
+CalculatorServer-tar: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 CalculatorServer-tar
+.PHONY : CalculatorServer-tar
+
+# fast build rule for target.
+CalculatorServer-tar/fast:
+	$(MAKE) -f CMakeFiles/CalculatorServer-tar.dir/build.make CMakeFiles/CalculatorServer-tar.dir/build
+.PHONY : CalculatorServer-tar/fast
+
+#=============================================================================
 # Target rules for targets named calculator_async_wrong_port
 
 # Build rule for target.
@@ -304,6 +317,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... CalculatorServer-tar"
 	@echo "... calculator_async_wrong_port"
 	@echo "... calculator_async_client"
 	@echo "... calculator_client"

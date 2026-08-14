@@ -1,4 +1,5 @@
 /mnt/ssd/learning/tarscpp-study/tars-calculator-practice/build/CMakeFiles/edit_cache.dir
+/mnt/ssd/learning/tarscpp-study/tars-calculator-practice/build/CMakeFiles/CalculatorServer-tar.dir
 /mnt/ssd/learning/tarscpp-study/tars-calculator-practice/build/CMakeFiles/calculator_async_wrong_port.dir
 /mnt/ssd/learning/tarscpp-study/tars-calculator-practice/build/CMakeFiles/calculator_async_client.dir
 /mnt/ssd/learning/tarscpp-study/tars-calculator-practice/build/CMakeFiles/calculator_client.dir

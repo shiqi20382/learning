@@ -127,7 +127,7 @@ int main()
 
         const std::string objectAddress =
             "MathApp.CalculatorServer.CalculatorObj"
-            "@tcp -h 127.0.0.1 -p 20002";
+            "@tcp -h 192.168.16.203 -p 11297";
         // 设置服务对象名称和服务端地址
 
         communicator.stringToProxy(

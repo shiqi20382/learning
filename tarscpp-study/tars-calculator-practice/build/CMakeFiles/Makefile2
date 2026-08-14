@@ -66,12 +66,40 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/CalculatorServer-tar.dir/clean
 clean: CMakeFiles/calculator_async_wrong_port.dir/clean
 clean: CMakeFiles/calculator_async_client.dir/clean
 clean: CMakeFiles/calculator_client.dir/clean
 clean: CMakeFiles/calculator_server.dir/clean
 
 .PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/CalculatorServer-tar.dir
+
+# All Build rule for target.
+CMakeFiles/CalculatorServer-tar.dir/all: CMakeFiles/calculator_server.dir/all
+	$(MAKE) -f CMakeFiles/CalculatorServer-tar.dir/build.make CMakeFiles/CalculatorServer-tar.dir/depend
+	$(MAKE) -f CMakeFiles/CalculatorServer-tar.dir/build.make CMakeFiles/CalculatorServer-tar.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/ssd/learning/tarscpp-study/tars-calculator-practice/build/CMakeFiles --progress-num= "Built target CalculatorServer-tar"
+.PHONY : CMakeFiles/CalculatorServer-tar.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/CalculatorServer-tar.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/ssd/learning/tarscpp-study/tars-calculator-practice/build/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/CalculatorServer-tar.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/ssd/learning/tarscpp-study/tars-calculator-practice/build/CMakeFiles 0
+.PHONY : CMakeFiles/CalculatorServer-tar.dir/rule
+
+# Convenience name for target.
+CalculatorServer-tar: CMakeFiles/CalculatorServer-tar.dir/rule
+
+.PHONY : CalculatorServer-tar
+
+# clean rule for target.
+CMakeFiles/CalculatorServer-tar.dir/clean:
+	$(MAKE) -f CMakeFiles/CalculatorServer-tar.dir/build.make CMakeFiles/CalculatorServer-tar.dir/clean
+.PHONY : CMakeFiles/CalculatorServer-tar.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/calculator_async_wrong_port.dir

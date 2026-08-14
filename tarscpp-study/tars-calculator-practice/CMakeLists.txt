@@ -103,3 +103,21 @@ target_link_libraries(
     PRIVATE
     ${TARS_LINK_LIBRARIES}
 )
+
+set(TARS_SERVER_NAME CalculatorServer)
+set(TARS_PACKAGE_DIR "${CMAKE_BINARY_DIR}/package/${TARS_SERVER_NAME}")
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/package")
+
+add_custom_target(${TARS_SERVER_NAME}-tar
+    COMMAND ${CMAKE_COMMAND} -E remove_directory "${TARS_PACKAGE_DIR}"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${TARS_PACKAGE_DIR}/bin"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${TARS_PACKAGE_DIR}/conf"
+    COMMAND ${CMAKE_COMMAND} -E copy
+            "$<TARGET_FILE:calculator_server>"
+            "${TARS_PACKAGE_DIR}/bin/${TARS_SERVER_NAME}"
+    COMMAND ${CMAKE_COMMAND} -E tar "cfz"
+            "${CMAKE_BINARY_DIR}/${TARS_SERVER_NAME}.tgz"
+            "${TARS_SERVER_NAME}"
+    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/package"
+    DEPENDS calculator_server
+)
