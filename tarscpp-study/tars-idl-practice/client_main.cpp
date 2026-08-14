@@ -15,7 +15,7 @@ int main()                                   // 定义客户端程序入口
 
         const std::string objectAddress =     // 定义服务对象及网络地址
             "HelloApp.HelloServer.HelloObj"
-            "@tcp -h 127.0.0.1 -p 20001";
+            "@tcp -h 192.168.16.203 -p 22961";
 
         communicator.stringToProxy(           // 根据对象地址创建代理
             objectAddress,                    // 传入完整服务对象地址

@@ -63,3 +63,43 @@ target_link_libraries(
     PRIVATE
     ${TARS_LINK_LIBRARIES}
 )
+
+# 创建单次异步 Calculator 客户端目标
+add_executable(
+    calculator_async_client
+    async_client_main.cpp
+)
+
+# 为异步客户端添加生成代码和 TarsCpp 头文件目录
+target_include_directories(
+    calculator_async_client
+    PRIVATE
+    ${PROJECT_INCLUDE_DIRS}
+)
+
+# 为异步客户端链接 TarsCpp 和系统依赖库
+target_link_libraries(
+    calculator_async_client
+    PRIVATE
+    ${TARS_LINK_LIBRARIES}
+)
+
+# 创建错误端口测试客户端
+add_executable(
+    calculator_async_wrong_port
+    async_client_wrong_port.cpp
+)
+
+# 为测试客户端添加头文件搜索目录
+target_include_directories(
+    calculator_async_wrong_port
+    PRIVATE
+    ${PROJECT_INCLUDE_DIRS}
+)
+
+# 为测试客户端链接 TarsCpp 和系统依赖
+target_link_libraries(
+    calculator_async_wrong_port
+    PRIVATE
+    ${TARS_LINK_LIBRARIES}
+)

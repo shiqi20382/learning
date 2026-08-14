@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -DNDEBUG   CMakeFiles/calculator_async_client.dir/async_client_main.cpp.o  -o calculator_async_client  ../../TarsCpp/build-study/lib/libtarsservant.a ../../TarsCpp/build-study/lib/libtarsutil.a ../../TarsCpp/build-study/lib/libtarsparse.a /usr/lib/x86_64-linux-gnu/libz.so -ldl -lpthread 

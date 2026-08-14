@@ -111,3 +111,30 @@ target_link_libraries(
     PRIVATE
     ${TARS_LINK_LIBRARIES}
 )
+
+# 控制台中的服务名，必须与部署申请中的服务名完全一致
+set(TARS_SERVER_NAME HelloServer)
+
+# 输出目录
+set(TARS_PACKAGE_DIR "${CMAKE_BINARY_DIR}/package/${TARS_SERVER_NAME}")
+
+# 让最终二进制文件名与服务名保持一致：bin/HelloServer
+set_target_properties(hello_server PROPERTIES OUTPUT_NAME "${TARS_SERVER_NAME}")
+
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/package")
+
+add_custom_target(${TARS_SERVER_NAME}-tar
+    COMMAND ${CMAKE_COMMAND} -E remove_directory "${TARS_PACKAGE_DIR}"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${TARS_PACKAGE_DIR}/bin"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${TARS_PACKAGE_DIR}/conf"
+    COMMAND ${CMAKE_COMMAND} -E copy
+            "$<TARGET_FILE:hello_server>"
+            "${TARS_PACKAGE_DIR}/bin/${TARS_SERVER_NAME}"
+    COMMAND ${CMAKE_COMMAND} -E tar "cfz"
+            "${CMAKE_BINARY_DIR}/${TARS_SERVER_NAME}.tgz"
+            --format=gnutar
+            "${TARS_SERVER_NAME}"
+    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/package"
+    DEPENDS hello_server
+    COMMENT "Create Tars deployment package: ${TARS_SERVER_NAME}.tgz"
+)

@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/hello_server.dir/server_main.cpp.o"
   "CMakeFiles/hello_server.dir/service/HelloImp.cpp.o"
-  "hello_server"
-  "hello_server.pdb"
+  "HelloServer"
+  "HelloServer.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

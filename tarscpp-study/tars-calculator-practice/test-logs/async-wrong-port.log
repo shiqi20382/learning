@@ -1,0 +1,2 @@
+2026-08-14 10:15:59|[ObjectProxy::doInvokeException MathApp.CalculatorServer.CalculatorObj@tcp -h 127.0.0.1 -p 29999:add:, ret: -7
+异步 add 调用失败,Tars 返回码: -7

@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named HelloServer-tar
+
+# Build rule for target.
+HelloServer-tar: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 HelloServer-tar
+.PHONY : HelloServer-tar
+
+# fast build rule for target.
+HelloServer-tar/fast:
+	$(MAKE) -f CMakeFiles/HelloServer-tar.dir/build.make CMakeFiles/HelloServer-tar.dir/build
+.PHONY : HelloServer-tar/fast
+
+#=============================================================================
 # Target rules for targets named hello_client
 
 # Build rule for target.
@@ -268,6 +281,7 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... HelloServer-tar"
 	@echo "... hello_client"
 	@echo "... hello_server"
 	@echo "... hello_local"

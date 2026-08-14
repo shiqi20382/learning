@@ -65,11 +65,39 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/HelloServer-tar.dir/clean
 clean: CMakeFiles/hello_client.dir/clean
 clean: CMakeFiles/hello_server.dir/clean
 clean: CMakeFiles/hello_local.dir/clean
 
 .PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/HelloServer-tar.dir
+
+# All Build rule for target.
+CMakeFiles/HelloServer-tar.dir/all: CMakeFiles/hello_server.dir/all
+	$(MAKE) -f CMakeFiles/HelloServer-tar.dir/build.make CMakeFiles/HelloServer-tar.dir/depend
+	$(MAKE) -f CMakeFiles/HelloServer-tar.dir/build.make CMakeFiles/HelloServer-tar.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles --progress-num=1 "Built target HelloServer-tar"
+.PHONY : CMakeFiles/HelloServer-tar.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/HelloServer-tar.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles 4
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/HelloServer-tar.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles 0
+.PHONY : CMakeFiles/HelloServer-tar.dir/rule
+
+# Convenience name for target.
+HelloServer-tar: CMakeFiles/HelloServer-tar.dir/rule
+
+.PHONY : HelloServer-tar
+
+# clean rule for target.
+CMakeFiles/HelloServer-tar.dir/clean:
+	$(MAKE) -f CMakeFiles/HelloServer-tar.dir/build.make CMakeFiles/HelloServer-tar.dir/clean
+.PHONY : CMakeFiles/HelloServer-tar.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/hello_client.dir
@@ -78,7 +106,7 @@ clean: CMakeFiles/hello_local.dir/clean
 CMakeFiles/hello_client.dir/all:
 	$(MAKE) -f CMakeFiles/hello_client.dir/build.make CMakeFiles/hello_client.dir/depend
 	$(MAKE) -f CMakeFiles/hello_client.dir/build.make CMakeFiles/hello_client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles --progress-num=1,2 "Built target hello_client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles --progress-num=2,3 "Built target hello_client"
 .PHONY : CMakeFiles/hello_client.dir/all
 
 # Build rule for subdir invocation for target.
@@ -105,7 +133,7 @@ CMakeFiles/hello_client.dir/clean:
 CMakeFiles/hello_server.dir/all:
 	$(MAKE) -f CMakeFiles/hello_server.dir/build.make CMakeFiles/hello_server.dir/depend
 	$(MAKE) -f CMakeFiles/hello_server.dir/build.make CMakeFiles/hello_server.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles --progress-num=6,7,8 "Built target hello_server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles --progress-num=7,8,9 "Built target hello_server"
 .PHONY : CMakeFiles/hello_server.dir/all
 
 # Build rule for subdir invocation for target.
@@ -132,7 +160,7 @@ CMakeFiles/hello_server.dir/clean:
 CMakeFiles/hello_local.dir/all:
 	$(MAKE) -f CMakeFiles/hello_local.dir/build.make CMakeFiles/hello_local.dir/depend
 	$(MAKE) -f CMakeFiles/hello_local.dir/build.make CMakeFiles/hello_local.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles --progress-num=3,4,5 "Built target hello_local"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/ssd/learning/tarscpp-study/tars-idl-practice/build/CMakeFiles --progress-num=4,5,6 "Built target hello_local"
 .PHONY : CMakeFiles/hello_local.dir/all
 
 # Build rule for subdir invocation for target.
